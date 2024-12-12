@@ -1,0 +1,121 @@
+#Power of a Number
+
+"""
+## Write your code here
+## To take space separated input for two variables, we use the following syntax (3 lines)
+## a, b = input().split()
+## a = int(a)
+## b = int(b)
+x,n=input().split()
+x=int(x)
+n=int(n)
+ans=x**n
+print(ans)
+
+""" "\n" \t
+
+#Sum of Array
+
+"""
+def sumArray(arr):
+    l=len(arr)
+    if l==0:
+        return 0
+    smallerlist=sumArray(arr[1:])
+    sum=arr[0]+smallerlist
+    return sum
+    pass
+
+from sys import setrecursionlimit
+setrecursionlimit(11000)
+n=int(input())
+arr=list(int(i) for i in input().strip().split(' '))
+print(sumArray(arr))
+
+""" "\n"\t
+
+#Check number in Array
+
+"""
+
+from sys import setrecursionlimit
+setrecursionlimit(10**8)
+
+def check_number(arr, x):
+    # Base case: if array is empty
+    if len(arr) == 0:
+        return False
+    
+    # Check if the first element of the array is equal to x
+    if arr[0] == x:
+        return True
+    
+    # Recursive case: check the rest of the array
+    return check_number(arr[1:], x)
+
+# Taking input
+N = int(input())
+arr = list(map(int, input().split()))
+x = int(input())
+
+# Calling the function and printing the result
+if (check_number(arr, x)):
+    print("true")
+else:
+    print("false")
+""" "\n"\t
+
+#First Index of Number
+
+"""
+"""
+def firstIndex(arr, x, idx=0):
+    if idx == len(arr):
+        return -1
+
+    if arr[idx] == x:
+            return idx
+
+    return firstIndex(arr, x, idx + 1)
+
+#Main
+from sys import setrecursionlimit
+setrecursionlimit(11000)
+n=int(input())
+arr=list(int(i) for i in input().strip().split(' '))
+x=int(input())
+print(firstIndex(arr, x))
+"""
+""" "\n"\t
+
+#Last Index of x
+
+"""
+from math import *
+from collections import *
+from sys import *
+from os import *
+
+## Read input as specified in the question.
+## Print output as specified in the question.
+def LastIndex(arr,x):
+    return LastIndexHelper(arr, x, len(arr) - 1)
+
+def LastIndexHelper(arr, x, index):
+    if index<0:
+        return -1
+
+    if arr[index]==x:
+        return index
+
+    return LastIndexHelper(arr, x, index - 1)
+
+#Read the input
+N=int(input())
+arr=list(map(int, input().split()))
+x=int(input())
+
+#Print the Last index of x in the array
+print(LastIndex(arr, x))
+""" "\n"\t
+
