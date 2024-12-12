@@ -1,0 +1,129 @@
+#Remove X
+
+"""
+
+# Problem: Remove x from string
+def removeX(s): 
+    if len(s) == 0:
+        return s
+    smallOutput = removeX(s[1:])
+    if s[0] == 'x':
+        return smallOutput
+    else:
+        return s[0] + smallOutput
+
+s = input()
+print(removeX(s))
+    
+""" "\n"\t
+
+#Remove Duplicates
+
+"""
+# Problem ID 91, removeConsecutiveDuplicates
+import sys
+
+def removeConsecutiveDuplicates(string):
+    # Please add your code here
+    if len(string) <= 1:
+        return string
+
+    string2 = removeConsecutiveDuplicates(string[1:])
+    if string[0] == string[1]:
+        return string2
+    else:
+        return string[0] + string2
+
+
+    # Set recursion limit
+sys.setrecursionlimit(10000)
+    
+string = input()
+print(removeConsecutiveDuplicates(string))
+
+""" "\n"\t
+
+#Merge Sort
+
+"""
+def mergeSort(arr: [int], l: int, r: int):
+    # Write Your Code Here
+    if l<r:
+        mid = (l+r)//2
+
+        left=arr[l:mid+1]
+        right=arr[mid+1:r+1]
+
+        mergeSort(left,0,len(left)-1)
+        mergeSort(right,0,len(right)-1)
+
+        i=0
+        j=0
+        k=l
+        while i < len(left) and j < len(right):
+            if left[i] <= right[j]:
+                arr[k] = left[i]
+                i += 1
+            else:
+                arr[k] = right[j]
+                j += 1
+            k += 1
+
+        while i < len(left):
+            arr[k] = left[i]
+            i += 1
+            k += 1
+
+        while j < len(right):
+            arr[k] = right[j]
+            j += 1
+            k += 1
+            
+""" "\n"\t
+
+#Quick Sort
+
+"""
+
+from typing import List
+
+def partitionArray(arr: List[int], si: int, ei: int) -> int:
+    pivot = arr[si]
+    i = si + 1
+    j = ei
+
+    while True:
+        while i <= j and arr[i] <= pivot:
+            i += 1
+        while i <= j and arr[j] >= pivot:
+            j -= 1
+        if i <= j:
+            arr[i], arr[j] = arr[j], arr[i]
+        else:
+            arr[si], arr[j] = arr[j], arr[si]
+            return j
+
+def quickSort(arr: List[int], si: int, ei: int):
+    if si < ei:
+        pi = partitionArray(arr, si, ei)
+        quickSort(arr, si, pi - 1)
+        quickSort(arr, pi + 1, ei)
+
+""" "\n"\t
+
+#Tower of Hanoi
+
+"""
+def tower_of_hanoi(n, source, auxiliary, destination):
+    if n ==0:
+        return
+    tower_of_hanoi(n-1, source, destination, auxiliary)
+    print(source, destination)
+    tower_of_hanoi(n-1, auxiliary, source, destination)
+
+# Input
+n = int(input())
+
+# Output
+tower_of_hanoi(n, 'a', 'b', 'c')
+""" "\n" /t
