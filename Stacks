@@ -1,0 +1,430 @@
+#Implementation:Stack using Singly Linked List
+
+"""
+
+from sys import stdin
+
+#Following is the structure of the node class for a Singly Linked List
+class Node :
+
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+class Stack :
+
+    #Define data members and __init__()
+    def __init__(self):
+        self.__head = None
+        self.__count = 0
+
+
+    '''----------------- Public Functions of Stack -----------------'''
+
+
+    def getSize(self) :
+        #Implement the getSize() function
+        return self.__count
+
+    def isEmpty(self) :
+        #Implement the isEmpty() function
+        return self.getSize()==0
+
+    def push(self, data) :
+        #Implement the push(element) function
+       newNode = Node(data)
+       newNode.next = self.__head
+       self.__head = newNode
+       self.__count += 1
+
+
+    def pop(self) :
+        #Implement the pop() function
+        if self.isEmpty():
+            return -1
+        data = self.__head.data
+        self.__head=self.__head.next
+        self.__count -= 1
+        return data
+        
+
+    def top(self) :
+        #Implement the top() function
+        if self.isEmpty():
+            return -1
+
+        data = self.__head.data
+        return data
+        
+
+
+
+
+#main
+q = int(stdin.readline().strip())
+
+stack = Stack()
+
+while q > 0 :
+
+    inputs = stdin.readline().strip().split(" ")
+    choice = int(inputs[0])
+
+    if choice == 1 :
+        data = int(inputs[1])
+        stack.push(data)
+
+    elif choice == 2 :
+        print(stack.pop())
+
+    elif choice == 3 :
+        print(stack.top())
+
+    elif choice == 4 : 
+        print(stack.getSize())
+
+    else :
+        if stack.isEmpty() :
+            print("true")
+        else :
+            print("false")
+
+    q -= 1
+
+""" "\n"\t
+
+#Balanced Paranthesis
+
+"""
+
+from sys import stdin
+
+def isBalanced(expression):
+    stack = []
+
+    for char in expression:
+        if char in ("(", "{", "["):
+            stack.append(char)
+        else:
+            if not stack:
+                return False
+            current_char = stack.pop()
+            if (current_char == '(' and char != ')') or \
+               (current_char == '{' and char != '}') or \
+               (current_char == '[' and char != ']'):
+                return False
+
+    return len(stack) == 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# main
+expression = input().strip()  # Read from standard input and remove trailing newline
+
+if isBalanced(expression):
+    print("true")
+else:
+    print("false")
+
+
+""" "\n"\t
+
+#Reverse a Stack
+
+"""
+
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10 ** 6)
+def reverseStack(inputStack, extraStack):
+    if not inputStack:
+        return
+    
+    top = inputStack.pop()
+    reverseStack(inputStack, extraStack)
+    
+    while inputStack:
+        extraStack.append(inputStack.pop())
+    
+    inputStack.append(top)
+    
+    while extraStack:
+        inputStack.append(extraStack.pop())
+
+# def reverseStack(inputStack, extraStack) :
+# 	#Your code goes here
+# 	for i in range(n):
+
+# 		temp = inputStack[-1]
+
+# 		inputStack.pop()
+
+# 		extraStack.append(temp)
+
+# def reverse_stack_by_using_extra_stack(s, n):
+
+# 	extraStack=[]
+# 	if len(s):
+		
+# 		for i in range(n):
+# 			x = s[-1]
+# 			s.pop()
+# 			transfer(s , extrastack, n - i -1 )
+# 			s.append(x)
+# 			transfer(extrastack, s, n - i -1)
+
+# 	    reverse_stack_by_using_extra_stack(s, n)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''-------------- Utility Functions --------------'''
+
+#Takes a list as a stack and returns whether the stack is empty or not
+def isEmpty(stack) :
+    return len(stack) == 0
+
+
+#Taking input using fast I/o method
+def takeInput() :
+	size = int(stdin.readline().strip())
+	inputStack = list()
+
+	if size == 0 :
+		return inputStack
+
+
+	values = list(map(int, stdin.readline().strip().split(" ")))
+	inputStack = values
+
+	return inputStack
+
+
+# Main
+inputStack = takeInput()
+emptyStack = list()
+
+reverseStack(inputStack, emptyStack)
+
+while not isEmpty(inputStack) :
+	print(inputStack.pop(), end = " ")
+
+"""" "\n"\t
+
+#Check Redundant Brackets
+
+"""
+
+from sys import stdin
+
+def checkRedundantBrackets(expression) :
+    stk = list()
+    for i in range(len(expression)):
+        if (expression[i] == '(') or (find(expression[i])) :
+            stk.append(expression[i])
+        elif expression[i] == ')' :
+            hasOperator = False
+            while not isEmpty(stk) and top(stk) != '(' :
+                stk.pop()
+                hasOperator = True
+            if not hasOperator : 
+                return True
+            if not isEmpty(stk) :
+                stk.pop()
+    return False
+
+'''-------------- Utility Functions --------------'''
+def find(ch) :
+    if ch == '+' or ch == '-' or ch == '*' or ch == '/' :
+        return True
+    return False
+#Takes a list as a stack and returns whether the stack is empty or not
+def isEmpty(stack) :
+    return len(stack) == 0
+
+#Takes a list as a stack and returns the element at the top
+def top(stack) :
+    #assuming the stack is never empty
+    return stack[len(stack) - 1]
+
+#main
+expression = stdin.readline().strip()
+if checkRedundantBrackets(expression) :
+    print("true")
+else :
+    print("false")
+""" "\n"\t
+
+#Stock Span
+
+"""
+
+from sys import stdin
+
+def stockSpan(price, n) :
+    stk = list()
+    output = [-1] * n
+
+    stk.append(0)
+    output[0] = 1
+
+    for i in range(1, n) :
+        while (not isEmpty(stk)) and (price[top(stk)] < price[i]) :
+            stk.pop()
+
+        if isEmpty(stk) :
+            output[i] = i + 1
+        else :
+            output[i] = i - top(stk)
+
+        stk.append(i)
+
+
+    return output
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+'''-------------- Utility Functions --------------'''
+
+
+#Takes a list as a stack and returns whether the stack is empty or not
+def isEmpty(stack) :
+    return len(stack) == 0
+
+
+#Takes a list as a stack and returns the element at the top
+def top(stack) :
+    #assuming the stack is never empty
+    return stack[len(stack) - 1]
+
+
+def printList(arr) :
+    for i in range(len(arr)) :
+        print(arr[i], end = " ")
+
+    print()
+
+
+def takeInput():
+    size = int(stdin.readline().strip())
+
+    if size == 0 :
+        return list(), 0
+
+    price = list(map(int, stdin.readline().strip().split(" ")))
+
+    return price, size
+
+
+#main
+price, n = takeInput()
+
+output = stockSpan(price, n)
+printList(output)
+""" "\n"\t
+
+#Minimum Bracket Reversal
+
+"""
+
+from sys import stdin
+
+    # Your code goes here
+        # Python3 program to find minimum number of
+        # reversals required to balance an expression
+
+        # Returns count of minimum reversals for
+        # making expr balanced. Returns -1 if
+        # expr cannot be balanced.
+# Python code to implement the approach
+
+
+def countMinReversals(Str):
+
+	# Step 1: Initialize a stack of char type and ans as 0.
+	st = []
+	ans = 0
+
+	# Step 2: Run a loop for each character of the String
+	for i in range(len(Str)):
+		# Step 2.1: If ' { ' encountered push it to the
+		# stack
+		if (Str[i] == '{'):
+			st.append(Str[i])
+		# Step 2.2: If ' } ' is encountered
+		else:
+			# Step 2.2.1: If stack has a '{' present for
+			# '}' encountered, pop from the stack.
+			if (len(st) > 0):
+				st.pop()
+			# Step 2.2.2: If stack is empty, change '}' to
+			# '{' and push it to stack and increment ans by
+			# 1
+			else:
+				st.append(Str[i])
+				ans += 1
+
+	# Step 3: if stack size is odd return -1.
+	if (len(st) % 2 != 0):
+		return -1
+	# Step 4: Increment ans by ( stackSize/2 ).
+	ans += len(st) // 2
+
+	return ans
+
+# driver code
+
+
+
+
+
+#main
+print(countMinReversals(stdin.readline().strip()))
+""" "\n"\t
+
+
