@@ -1,0 +1,138 @@
+#x to the power n
+
+"""
+def power(x, n):
+    # Please add your code here
+    P = 1
+    for i in range(1, n + 1):
+        P *= x
+    return P
+    
+
+    # P=1
+    # for i in range(1, n+1):
+    #     p=p*x
+    # return p
+
+
+# Main
+from sys import setrecursionlimit
+setrecursionlimit(11000)
+x, n=list(int(i) for i in input().strip().split(' '))
+print(power(x, n))
+""" "\n"\t
+
+#Array Intersection
+
+"""
+
+from sys import stdin
+
+
+def intersection(arr1, arr2, n, m) :
+	#Your code goes here
+    count_dict={}
+    for num in arr1:
+        count_dict[num] = count_dict.get(num, 0)+1
+    
+    intersection=[]
+    for num in arr2:
+        if num in count_dict and count_dict[num]>0:
+            intersection.append(num)
+            count_dict[num] -= 1
+    
+    
+    intersection.sort()
+    for ele in intersection:
+        print(ele, end = ' ')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Taking input using fast I/O method
+def takeInput() :
+    n = int(stdin.readline().strip())
+    
+    if n == 0 :
+    	return list(), 0
+
+    arr = list(map(int, stdin.readline().strip().split(" ")))
+    return arr, n
+
+
+#main
+t = int(stdin.readline().strip())
+
+while t > 0 :
+
+    arr1, n = takeInput()
+    arr2, m = takeInput()
+    intersection(arr1, arr2, n, m)
+    print()
+
+    t -= 1
+
+""" "\n"\t
+
+#Array equilibrium Index
+
+"""
+
+from sys import stdin
+
+def arrayEquilibriumIndex(arr, n) :
+    #Your code goes here
+    sum=0
+    for ele in arr:
+        sum=sum+ele
+    leftsum=0
+    i=0
+    while i<n:
+        rightsum=sum-leftsum-arr[i]
+        if leftsum == rightsum:
+            return(i)
+        else:
+            leftsum=leftsum+arr[i]
+            i=i+1
+    return -1
+
+""" "\n"\t
+
+#Find the Unique Element
+
+"""
+
+from sys import stdin
+
+def findUnique(arr, n):
+    XOR = 0
+
+    for i in range(n):
+        XOR ^= arr[i]
+
+    return XOR 
+""" "\n" \t
+
+
