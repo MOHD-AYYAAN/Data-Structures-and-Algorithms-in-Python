@@ -1,0 +1,818 @@
+#Count nodes of Linked List
+
+"""
+
+def length(head) :
+    #Your code goes here
+    count=0
+    while head:
+        count+=1
+        head=head.next
+    
+    return count
+
+""" "\n"\t
+
+#Print ith Node
+
+"""
+from sys import stdin
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+
+def printIthNode(head, i):
+    #Your code goes here
+    c=0
+    while head:
+        if c==i:
+            print(head.data)
+            return head.data
+        
+        head=head.next
+        c=c+1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Taking Input Using Fast I/O
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+
+#To print the linked list 
+def printLinkedList(head) :
+
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+
+    print()
+
+
+#main
+t = int(stdin.readline().rstrip())
+
+while t > 0 :
+
+    head = takeInput()
+    i = int(stdin.readline().rstrip())
+    printIthNode(head, i)
+
+    t -= 1
+
+""" "\n"\t
+
+#Delete Node
+
+"""
+from sys import stdin
+
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+def deleteNode(head, pos) :
+    if pos < 0 or head is None:
+
+        return None
+
+    if pos == 0:
+        new_head = head.next
+        head.next = None
+        return new_head
+
+    prev = head
+    current = head.next
+    for i in range(1, pos):
+        if current is None:
+
+            return head
+        current = current.next
+        prev = prev.next
+
+    if current is None:
+        return head
+
+    prev.next = current.next
+    current.next = None
+    return head
+
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+    return head
+def printLinkedList(head) :
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+head = takeInput()
+pos = int(stdin.readline().rstrip())
+head = deleteNode(head, pos)
+printLinkedList(head)
+""" "\n"\t
+
+#Length of Linked List(Recursively)
+
+"""
+
+from sys import stdin , setrecursionlimit
+setrecursionlimit(10**6)
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+# Taking Input Using Fast I/O
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+
+# To print the linked list 
+def printLinkedList(head) :
+
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+
+    print()
+
+def lengthRecursive(head):
+    if head is None:
+        return 0
+    
+   
+    smallans=lengthRecursive(head.next)
+    return 1+smallans
+
+    pass
+
+    # A linked list, find and return the length of input LL recursively.
+    # Write your code here
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+# Main
+t = int(stdin.readline().rstrip())
+
+while t > 0 :
+    head = takeInput()
+    ans=lengthRecursive(head)
+    print(ans)
+    t -= 1 
+
+""" "\n"\t
+
+#Delete Node(Recursively)
+
+"""
+
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10 ** 6)
+
+# Following is the Node class already written for the Linked List
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def deleteNodeRec(head, pos):
+    # Base cases
+    if pos < 0:
+        return head
+    if head is None:
+        return head
+    
+    if pos == 0:
+        head = head.next
+        return head
+    
+    # Recursive step
+    head.next = deleteNodeRec(head.next, pos - 1)
+    return head
+
+def takeInput():
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1):
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None:
+            head = newNode
+            tail = newNode
+        else:
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+def printLinkedList(head):
+    while head is not None:
+        print(head.data, end=" ")
+        head = head.next
+    print()
+
+# Main
+t = int(stdin.readline().rstrip())
+
+while t > 0:
+    head = takeInput()
+    pos = int(stdin.readline().rstrip())    
+    newHead = deleteNodeRec(head, pos)
+    printLinkedList(newHead)
+    t -= 1
+""" "\n" \t
+
+#Find a node in Linked List
+
+"""
+
+# Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+def findNode(head,n) :
+    # Write your code here.
+    pass
+    current=head
+    index=0
+    while current is not None:
+        if current.data == n:
+            return index
+        current=current.next
+        index += 1
+    return -1
+
+""" "\n"\t
+
+#Append last N to first
+
+"""
+
+from sys import stdin
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+
+def appendLastNToFirst(head, n) :
+    #Your code goes here
+    if n == 0 or head is None :
+        return head
+    fast = head
+    slow = head 
+    initialHead = head
+    for i in range(n) :
+        fast = fast.next
+    while fast.next is not None : 
+        slow = slow.next 
+        fast = fast.next
+    temp = slow.next 
+    slow.next = None 
+    fast.next = initialHead 
+    head = temp 
+    return head
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Taking Input Using Fast I/O
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+
+#to print the linked list 
+def printLinkedList(head) :
+
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+
+    print()
+
+
+#main
+t = int(stdin.readline().rstrip())
+
+while t > 0 :
+
+    head = takeInput()
+    n = int(stdin.readline().rstrip())
+
+    head = appendLastNToFirst(head, n)
+    printLinkedList(head)
+
+    t -= 1 
+
+""" "\n"\t
+
+#Eleminate Duplicates in Linked List
+
+"""
+
+from sys import stdin
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+
+def removeDuplicates(head) :
+    #Your code goes here
+    if head is None or head.next is None:
+        return head
+    
+    curr = head
+    new = curr.next
+    
+    while new is not None:
+        if curr.data == new.data:
+            curr.next = new.next
+            new = curr.next
+        else:
+            curr = curr.next
+            new = new.next
+            
+    return head
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+#Taking Input Using Fast I/O
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+
+#to print the linked list 
+def printLinkedList(head) :
+
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+
+    print()
+
+
+#main
+t = int(stdin.readline().strip())
+
+while t > 0 :
+    head = takeInput()
+
+    head = removeDuplicates(head)
+    printLinkedList(head)
+
+    t -= 1
+
+
+""" "\n"\t
+
+#Print Reversed Linked List
+
+"""
+
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10 ** 6)
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+
+def reverseLinkedList(head):
+    prev = None
+    cur = head
+    while cur is not None:
+        next = cur.next  # Save the next node
+        cur.next = prev  # Reverse the link
+        prev = cur       # Move prev one step forward
+        cur = next       # Move cur one step forward
+
+    return prev
+
+def printReverse(head):
+    reversed_head = reverseLinkedList(head)
+    printLinkedList(reversed_head)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Taking Input Using Fast I/O
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+
+#to print the linked list 
+def printLinkedList(head) :
+
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+
+    print()
+
+
+#main
+t = int(stdin.readline().rstrip())
+
+while t > 0 :
+
+    head = takeInput()
+    printReverse(head)
+    print()
+
+    t -= 1
+
+""" "\n"\t
+
+#Palindrome Linked List
+
+"""
+
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10**5)
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+def printll(head):
+    list = []
+    while head is not None:
+        list.append(head.data)
+        head = head.next
+    return list
+  
+def reverseLL(head):
+    list = []
+    while head is not None:
+        list.insert(0, head.data) 
+        head = head.next
+    return list
+
+
+def isPalindrome(head) :
+    if printll(head)  == reverseLL(head):
+        return True
+    else:
+        return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Taking Input Using Fast I/O
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+
+#to print the linked list 
+def printLinkedList(head) :
+
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+
+    print()
+
+
+#main
+t = int(stdin.readline().rstrip())
+
+while t > 0 :
+    
+    head = takeInput()
+    
+    if isPalindrome(head) :
+        print('true')
+    else :
+        print('false')
+        
+    t -= 1
+
+""" "\n"\t
