@@ -1,0 +1,105 @@
+#Inheritance
+
+"""
+# parent class
+class Person():
+    # write your code logic !!
+    def __init__(self,name,age):
+        self.name = name
+        self.age = age
+
+    def display(self):
+        print(self.name,self.age)
+
+# child class
+class Student(Person):
+    # write your code logic !!
+    def __init__(self, name, age, dob):
+        super().__init__(name,age)
+        self.dob = dob
+
+    def displayInfo(self):
+        print(self.name, self.age, self.dob)
+
+    """ "\n"\t
+
+#Polymorphism
+
+"""
+
+class India:
+    def capital(self):
+        print("New Delhi is the capital of India.")
+
+    def language(self):
+        print("Hindi is the most widely spoken language of India.")
+
+class USA:
+    def capital(self):
+        print("Washington, D.C. is the capital of USA.")
+
+    def language(self):
+        print("English is the primary language of USA.")
+
+def main():
+   
+
+    choice = input()
+
+    if choice == '1':
+        india = India()
+        india.capital()
+        india.language()
+    elif choice == '2':
+        usa = USA()
+        usa.capital()
+        usa.language()
+    else:
+        print("Invalid input. Please enter 1 for India or 2 for USA.")
+
+if __name__ == "__main__":
+    main()
+""" "\n"\t
+
+#Abstract Class
+
+"""
+
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+	@abstractmethod
+	def move(self):
+		pass
+
+# write your code logic 
+class Human(Animal):
+	def move(self):
+		print("I can walk and run")
+
+class Snake(Animal):
+	def move(self):
+		print("I can crawl")
+
+class Dog(Animal):
+	def move(self):
+		print("I can bark")
+
+class Lion(Animal):
+	def move(self):
+		print("I can roar")
+
+
+if __name__ == "__main__":
+	R = Human()
+	R.move()
+
+	K = Snake()
+	K.move()
+
+	L = Dog()
+	L.move()
+
+	K = Lion()
+	K.move()
+""" "\n"\t
