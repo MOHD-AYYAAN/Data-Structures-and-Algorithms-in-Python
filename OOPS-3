@@ -1,0 +1,65 @@
+#Division Problem(Zero Division Error)
+
+"""
+def abc(m,n):
+    try:
+        result=m//n
+        print(result)
+    except ZeroDivisionError:
+        print("Division not possible")
+    finally:
+        print("Hey you are doing division")
+
+m=int(input())
+n=int(input())
+abc(m,n)
+""" "\n"\t
+
+#Division and Exception Handling
+
+"""
+
+x=int(input())
+y=int(input())
+def divide(x, y): 
+	# write your code logic !!
+	try:
+		result=x//y
+	except ZeroDivisionError:
+		print("Sorry ! You are dividing by zero")
+	else:
+		print(result)
+	finally:
+		print("This is always executed")
+	
+divide(x, y) 
+""" "\n"\t
+
+#Salary Issue
+
+"""
+
+class InsufficientFunds(Exception):
+    def __init__(self, bank_balance, withdrawal_amount):
+        super().__init__("Insufficient funds in the account.")
+        self.bank_balance = bank_balance
+        self.withdrawal_amount = withdrawal_amount
+
+def main():
+    salary = 500
+    withdrawal_amount = int(input())
+
+    try:
+        if withdrawal_amount > salary:
+            raise InsufficientFunds(salary, withdrawal_amount)
+        else:
+            remaining_balance = salary - withdrawal_amount
+            print("Remaining:{}".format(remaining_balance))
+    except InsufficientFunds as e:
+        print(e)
+
+if __name__ == "__main__":
+    main()
+
+
+""" "\n"\t
