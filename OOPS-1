@@ -1,0 +1,20 @@
+#Static Method
+
+"""
+
+class MyClass:
+    @staticmethod
+    def getmaxvalue(a, b):
+        return max(a, b)
+
+
+		
+
+# Create an instance of MyClass
+x = int(input())
+y = int(input())
+# Getting the maximum value using the static method
+result = MyClass.getmaxvalue(x, y)
+print(result)
+""" "\n"\t
+
