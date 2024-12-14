@@ -1,0 +1,423 @@
+#Rat in a Maze
+
+"""
+
+'''
+    Time complexity: O(3^(N^2))
+    Space Complexity: O(N^2)
+
+    where N is the size of array/list ARR.
+'''
+
+def isValidMove(y, x, arr, visited):
+    
+    if x == -1 or x == len(arr) or y == -1 or y == len(arr) or visited[y][x] or arr[y][x] == 0:
+        return False
+        
+    return True
+
+def printPathUtil(arr, y, x, path, pathList, visited):
+    
+    # This will check the initial point(i.e. (0, 0)) to start the paths.
+    if x == -1 or x == len(arr) or y == -1 or y == len(arr) or visited[y][x] or arr[y][x] == 0:
+        return
+    
+    # If reach the last cell (n-1, n-1) then store the path and return.
+    if x == len(arr) - 1 and y == len(arr) - 1:
+        pathList.append(path)
+        return
+    
+    visited[y][x] = True
+    
+    # Try for all the 4 directions (down, left, right, up)
+    # in the given order to get the paths in lexicographical order.
+    
+    if isValidMove(y + 1, x, arr, visited):
+        path += 'D'
+        printPathUtil(arr, y + 1, x, path, pathList, visited)
+        path = path[:-1]
+    
+    if isValidMove(y, x - 1, arr, visited):
+        path += 'L'
+        printPathUtil(arr, y, x - 1 , path, pathList, visited)
+        path = path[:-1]
+    
+    if isValidMove(y, x + 1, arr, visited):
+        path += 'R'
+        printPathUtil(arr, y, x + 1 , path, pathList, visited)
+        path = path[:-1]
+    
+    if isValidMove(y - 1, x, arr, visited):
+        path += 'U'
+        printPathUtil(arr, y - 1, x, path, pathList, visited)
+        path = path[:-1]
+    
+    # Mark the cell as unvisited for other possible paths.
+    visited[y][x] = False
+
+
+def searchMaze(arr, n):
+
+    # List to store all the possible paths.
+    possiblePaths = []
+    path = ""
+    visited = [[False for _ in range(n)]
+                      for _ in range(n)]
+
+    printPathUtil(arr, 0, 0, path, possiblePaths, visited)
+    
+    return possiblePaths
+
+""" "\n"\t
+
+#Word Search
+
+"""
+
+from typing import List
+
+def dfs(i: int, j: int, n: int, m: int, board: List[List[str]], word: str, k: int) -> bool:
+    # Check if the word has been found.
+    if k == len(word):
+        return True
+
+    # Check if the current position is out of bounds or the cell is visited or doesn't match the current letter.
+    elif i < 0 or i == n or j < 0 or j == m or board[i][j] == '#' or board[i][j] != word[k]:
+        return False
+    else:
+        # Store the value of the current cell.
+        temp = board[i][j]
+
+        # Mark the current cell as visited.
+        board[i][j] = '#'
+
+        # Recursively call dfs for the neighboring cells.
+        op1 = dfs(i + 1, j, n, m, board, word, k + 1)
+        op2 = dfs(i, j + 1, n, m, board, word, k + 1)
+        op3 = dfs(i - 1, j, n, m, board, word, k + 1)
+        op4 = dfs(i, j - 1, n, m, board, word, k + 1)
+
+        # Restore the original value of the current cell.
+        board[i][j] = temp
+
+        # Return True if any of the neighboring cells found the word.
+        return op1 or op2 or op3 or op4
+
+
+def present(board: List[List[str]], word: str, n: int, m: int) -> bool:
+    # Number of rows and columns in the board.
+    n, m = len(board), len(board[0])
+
+    # Checking for each cell on the board.
+    for i in range(n):
+        for j in range(m):
+            # If the first letter matches.
+            if board[i][j] == word[0]:
+                # Call dfs function to check if the word can be formed starting from the current cell.
+                if dfs(i, j, n, m, board, word, 0):
+                    return True
+
+    # Word not found on the board.
+    return False
+
+
+""" "\n"\t
+
+#N Queens
+
+"""
+
+'''
+    Time Complexity : O(N!)
+    Space Complexity : O(N)
+    
+    Where N is the number of queens.
+'''
+
+def addSolution(n, ans, row):
+    currentAnswer = []
+    for i in range(n):
+        for j in range(n):
+            if row[j] == i:
+                currentAnswer.append(1)
+            else:
+                currentAnswer.append(0)
+    ans.append(currentAnswer)
+
+def solve(col, n, ans, row, d1, d2):
+    if col == n:
+        addSolution(n, ans, row)
+        return
+    for i in range(n):
+        if ((row[i] == -1) and (d1[col - i + n - 1] == -1) and (d2[col + i] == -1)):
+            row[i] = d1[col - i + n - 1] = d2[col + i] = col
+            solve(col + 1, n, ans, row, d1, d2)
+            row[i] = d1[col - i + n - 1] = d2[col + i] = -1
+    return
+
+def solveNQueens(n):
+    ans = []
+    row = [-1] * 30
+    d1 = [-1] * 30
+    d2 = [-1] * 30
+    solve(0, n, ans, row, d1, d2)
+    return ans
+
+
+""" "\n"\t
+
+#Reach the Destination
+
+"""
+
+def reachDestination(sx, sy, dx, dy):
+    # Destination reached
+    if sx == dx and sy == dy:
+        return True
+    
+    # Base case
+    if sx > dx or sy > dy:
+        return False
+    
+    # Recursive call
+    if dx > dy:
+        return reachDestination(sx, sy, dx - dy, dy)
+    else:
+        return reachDestination(sx, sy, dx, dy - dx)
+
+""" "\n"\t
+
+#Ninja and his dessert
+
+"""
+
+'''
+    Time complexity : O(N * 3 ^ M)
+    Space complexity : O(M)
+
+    Where N is the number of base flavors 
+    and M is the number of toppings.
+'''
+
+# Function to find closest price.
+def close(a, b, target):
+    if a == 0:
+        return b
+    if b == 0:
+        return a
+
+    # If both are equally closest return the lower price.
+    if abs(target - a) == abs(target - b):
+        return a if a < b else b
+
+    return a if abs(target - a) < abs(target - b) else b
+
+# Function to find closest price possible for a specific flavor.
+def dfs(top, i, sum, target):
+
+    if i >= len(top):
+        return sum
+
+    # Base + one topping.
+    a = dfs(top, i + 1, sum + top[i], target)
+
+    # Base + two toppings.
+    b = dfs(top, i + 1, sum + top[i] * 2, target)
+
+    # Only base.
+    c = dfs(top, i + 1, sum, target)
+
+    # Return the closest.
+    sum = close(a, close(b, c, target), target)
+
+    return sum
+
+def closestCost(n, m, baseCosts, toppingsCost, target):
+    ans = 0
+
+    for i in range(n):
+        ans = close(dfs(toppingsCost, 0, baseCosts[i], target), ans, target)
+    return ans
+"""\n"\t
+
+#Combination Sum
+
+"""
+
+from copy import copy
+def solve(result, currIndex, currSum, currList, B, ARR):
+    if currSum == B:
+        result.append(copy(currList))
+        return
+    if currIndex==len(ARR):
+        return
+    solve(result, currIndex+1, currSum, currList, B, ARR)
+
+    cnt=0
+    while currSum <=B:
+        cnt += 1
+        currSum += ARR[currIndex]
+        currList.append(ARR[currIndex])
+        solve(result, currIndex+1, currSum, currList, B, ARR)
+
+    while cnt:
+        currList.pop()
+        cnt -= 1
+
+
+
+def combSum(ARR, B):    
+    result = []
+    currList = []
+    ARR.sort()  # Sort the ARRay in non-decreasing order
+    solve(result, 0, 0, currList, B, ARR)
+    return result
+
+
+
+""" "\n"\t
+
+#Palindrome Partitioning
+
+"""
+
+from sys import stdin
+import json
+
+def partitionHelper(s, start, answer, currList, dp):
+    # If start reach the end of String.
+    if start >= len(s):
+        # Add the current generated Palindromic Partition to answer List.
+        answer.append(currList[:])
+    for k in range(start, len(s)):
+        # Check if substring S[start...k] is Palindrome or not.
+        if dp[start][k]:
+            # Add the substring S[start...k].
+            currList.append(s[start : k + 1])
+            # Recurence for rest of the string to get all the palindromic partitions.
+            partitionHelper(s, k + 1, answer, currList, dp)
+            # Remove the substring S[start...k] from current partition.
+            currList.pop()
+            
+def partition(s):
+    # It store all the possible palindromic partitions.
+    answer = []
+    # Create a boolean dp for checking substing[i..j] is palindrome or not.
+    dp = [[0 for j in range(len(s))] for i in range(len(s))]
+    for i in range(0,len(s)):
+        for j in range(0, i + 1):
+            if (s[i] == s[j]) and (i - j < 2 or dp[j + 1][i - 1]):
+                dp[j][i] = True
+    # Recursive function to generate all the possible palindromic partitions.           
+    partitionHelper(s, 0, answer, [], dp)
+    return answer
+                
+s=stdin.readline().rstrip()
+final = partition(s)
+for ele in final:
+    ele = sorted(ele)
+    print(json.dumps(ele))
+
+""" "\n"\t
+
+#Valid Sudoku
+
+"""
+
+def isItSudoku(board):
+    def is_valid(board, row, col, num):
+        # Check if the number is not repeated in the current row and column
+        for i in range(9):
+            if board[row][i] == num or board[i][col] == num:
+                return False
+
+        # Check if the number is not repeated in the 3x3 sub-grid
+        start_row, start_col = 3 * (row // 3), 3 * (col // 3)
+        for i in range(3):
+            for j in range(3):
+                if board[start_row + i][start_col + j] == num:
+                    return False
+
+        return True
+
+    def solve_sudoku(board):
+        for row in range(9):
+            for col in range(9):
+                if board[row][col] == 0:
+                    for num in range(1, 10):
+                        if is_valid(board, row, col, num):
+                            board[row][col] = num
+                            if solve_sudoku(board):
+                                return True
+                            board[row][col] = 0
+                    return False
+        return True
+
+    # Call the solver function
+    return solve_sudoku(board)
+
+""" "\n"\t
+
+#Rat in a Maze All Paths
+
+"""
+
+def ratInAMaze(maze, n):
+    # Initialize the solution matrix with all zeros
+    solution = [[0 for j in range(n)] for i in range(n)]
+    # Start finding paths from the top-left corner (0, 0)
+    findPaths(maze, solution, 0, 0, n)
+
+def findPaths(maze, solution, x, y, n):
+    # If the current cell is the bottom-right corner and it's open
+    if x == n - 1 and y == n - 1 and maze[x][y] == 1:
+        # Mark this cell as part of the solution path
+        solution[x][y] = 1
+        # Print the current solution path
+        printSolution(solution, n)
+        # Unmark this cell to allow for other possible paths
+        solution[x][y] = 0
+        return
+
+    # Check if the current cell is valid to move into
+    if isValidMove(maze, solution, x, y, n):
+        # Mark this cell as part of the solution path
+        solution[x][y] = 1
+
+        # Recursively move to the next cells in all four possible directions
+
+        # Move Down
+        findPaths(maze, solution, x + 1, y, n)
+        # Move Up
+        findPaths(maze, solution, x - 1, y, n)
+        # Move Right
+        findPaths(maze, solution, x, y + 1, n)
+        # Move Left
+        findPaths(maze, solution, x, y - 1, n)
+
+        # Backtrack: Unmark this cell as part of the solution path
+        solution[x][y] = 0
+
+def isValidMove(maze, solution, x, y, n):
+    # Check if the cell (x, y) is within bounds, open, and not already part of the solution path
+    if x >= 0 and x < n and y >= 0 and y < n and maze[x][y] == 1 and solution[x][y] == 0:
+        return True
+    return False
+
+def printSolution(solution, n):
+    for i in range(n):
+        for j in range(n):
+            print(solution[i][j], end=" ")
+    print()
+
+# Main
+if __name__ == "__main__":
+    n = int(input())
+    maze = []
+    for i in range(n):
+        row = list(map(int, input().split()))
+        maze.append(row)
+
+    ratInAMaze(maze, n)
+
+""" "\n"\t
