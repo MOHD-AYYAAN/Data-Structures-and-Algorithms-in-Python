@@ -1,0 +1,753 @@
+#BFS Traversal
+
+"""
+
+import queue
+class Graph:
+    def __init__(self, nVertices):
+        self.vertices = nVertices
+        self.adjMatrix = [[0 for i in range(nVertices)] for j in range(nVertices)]
+    
+    def addEdge(self, v1, v2):
+        self.adjMatrix[v1][v2] = 1
+        self.adjMatrix[v2][v1] = 1
+    
+    def bfs(self,visited,sv):
+        #visited = [False for i in range(self.vertices)]
+        q = queue.Queue()
+        q.put(sv)
+        while not q.empty():
+            node = q.get()
+            print(node, end=' ')
+            visited[node] = True
+            for i in range(self.vertices):
+                if self.adjMatrix[node][i] == 1 and visited[i] is False:
+                    visited[i] = True
+                    q.put(i)
+
+        
+l = [int(x) for x in input().strip().split()]
+vertices = l[0]
+edges = l[1]
+
+g = Graph(vertices)
+
+for i in range(edges):
+    edgPair = [int(x) for x in input().strip().split()]
+    g.addEdge(edgPair[0], edgPair[1])
+visited = [False for i in range(vertices)]
+for i in range(vertices):
+    if visited[i] is False:
+        g.bfs(visited,i)
+
+""" "\n"\t
+
+#Has Path
+
+"""
+
+from collections import defaultdict, deque
+
+class Graph:
+  
+    def __init__(self, vertices):
+        self.V = vertices  # Number of vertices
+        self.graph = defaultdict(list)  # Default dictionary to store the graph
+  
+    # Function to add an edge to the graph
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+        self.graph[v].append(u)  # Since the graph is undirected
+  
+    # Use BFS to check if there is a path between s and d
+    def isReachable(self, s, d):
+        if s == d:
+            return True
+        
+        # Mark all the vertices as not visited
+        visited = [False] * self.V
+  
+        # Create a queue for BFS
+        queue = deque()
+  
+        # Mark the source node as visited and enqueue it
+        queue.append(s)
+        visited[s] = True
+  
+        while queue:
+            # Dequeue a vertex from the queue
+            n = queue.popleft()
+             
+            # If this adjacent node is the destination node, return True
+            if n == d:
+                return True
+ 
+            # Else, continue to do BFS
+            for i in self.graph[n]:
+                if not visited[i]:
+                    queue.append(i)
+                    visited[i] = True
+        
+        # If BFS is complete without visiting d, return False
+        return False
+
+# Reading input and using the Graph class
+if __name__ == "__main__":
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    # Read number of vertices and edges
+    index = 0
+    V = int(data[index])
+    E = int(data[index + 1])
+    index += 2
+    
+    # Initialize graph
+    g = Graph(V)
+    
+    # Read edges
+    for _ in range(E):
+        a = int(data[index])
+        b = int(data[index + 1])
+        g.addEdge(a, b)
+        index += 2
+    
+    # Read the two vertices to check path between
+    v1 = int(data[index])
+    v2 = int(data[index + 1])
+    
+    # Check if there is a path between v1 and v2
+    if g.isReachable(v1, v2):
+        print("true")
+    else:
+        print("false")
+
+
+
+# Write your code here
+# class Graph:
+  
+#     def __init__(self,vertices):
+#         self.V= vertices #No. of vertices
+#         self.graph = defaultdict(list) # default dictionary to store graph
+  
+#     # function to add an edge to graph
+#     def addEdge(self,u,v):
+#         self.graph[u].append(v)
+      
+#      # Use BFS to check path between s and d
+#     def isReachable(self, s, d):
+#         # Mark all the vertices as not visited
+#         visited =[False]*(self.V)
+  
+#         # Create a queue for BFS
+#         queue=[]
+  
+#         # Mark the source node as visited and enqueue it
+#         queue.append(s)
+#         visited[s] = True
+  
+#         while queue:
+ 
+#             #Dequeue a vertex from queue 
+#             n = queue.pop(0)
+             
+#             # If this adjacent node is the destination node,
+#             # then return true
+#             if n == d:
+#                    return True
+ 
+#             #  Else, continue to do BFS
+#             for i in self.graph[n]:
+#                 if visited[i] == False:
+#                     queue.append(i)
+#                     visited[i] = True
+#          # If BFS is complete without visited d
+#         return False
+
+""" "\n"\t
+
+#Get Path-DFS
+
+"""
+
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10**6)
+import queue
+
+class Graph:
+    def __init__(self, nVertices):
+        self.nVertices = nVertices
+        self.adjMatrix = [[0 for i in range(nVertices)] for j in range(nVertices)]
+    
+    def addEdge(self, v1, v2):
+        self.adjMatrix[v1][v2] = 1
+        self.adjMatrix[v2][v1] = 1
+    
+    def removeEdge(self):
+        if self.containsEdge(v1, v2) is False :
+            return
+        self.adjMatrix[v1][v2] = 0
+        self.adjMatrix[v2][v1] = 0
+        
+    def containsEdge(self, v1, v2):
+        if self.adjMatrix[v1][v2] > 0:
+            return True
+        else: 
+            return False
+        
+    def __str__(self):
+        return str(self.adjMatrix)
+    
+        
+               
+       
+    def __getPathDFS(self, sv, ev, visited) :
+        if sv == ev :
+            return list([sv])
+        
+        visited[sv] = True
+    
+        for i in range(self.nVertices) :
+            if self.adjMatrix[sv][i] == 1 and not visited[i] :
+                li = self.__getPathDFS(i, ev, visited)
+                
+                if li != None :
+                    li.append(sv)
+                    return li
+        
+        return None
+    
+ 
+    
+    def getPathDFS(self, sv, ev) :
+        visited = [False for i in range(self.nVertices)]
+        return self.__getPathDFS(sv, ev, visited)   
+
+# Main
+li = stdin.readline().strip().split()
+V = int(li[0])
+E = int(li[1])
+
+g = Graph(V)
+
+for i in range(E) :
+    arr = stdin.readline().strip().split()
+    fv = int(arr[0])
+    sv = int(arr[1])
+    g.addEdge(fv, sv)
+
+li = stdin.readline().strip().split()
+sv = int(li[0])
+ev = int(li[1])
+
+li = g.getPathDFS(sv, ev)
+
+if li != None :
+    for element in li :
+        print(element, end = ' ')
+
+""" "\n"\t
+
+#Get Path_BFS
+
+"""
+
+import queue
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10**6)
+class Graph:
+    def __init__(self, nVertices):
+        self.nVertices = nVertices
+        self.adjMatrix = [[0 for i in range(nVertices)] for j in range(nVertices)]
+    
+    def addEdge(self, v1, v2):
+        self.adjMatrix[v1][v2] = 1
+        self.adjMatrix[v2][v1] = 1
+    
+    def removeEdge(self):
+        if self.containsEdge(v1, v2) is False :
+            return
+        self.adjMatrix[v1][v2] = 0
+        self.adjMatrix[v2][v1] = 0
+        
+    def containsEdge(self, v1, v2):
+        if self.adjMatrix[v1][v2] > 0:
+            return True
+        else: 
+            return False
+        
+    def __str__(self):
+        return str(self.adjMatrix)
+            
+    
+    def __getPathBFS(self, sv, ev, visited) :
+        mapp = {}
+        q = queue.Queue()
+        
+        if self.adjMatrix[sv][ev] == 1 and sv == ev :
+            ans = []
+            ans.append(sv)
+            return ans
+        
+        q.put(sv)
+        visited[sv] = True
+        
+        while q.empty() is False :
+            front = q.get()
+            
+            for i in range(self.nVertices) :
+                if self.adjMatrix[front][i] == 1 and visited[i] is False :
+                    mapp[i] = front
+                    q.put(i)
+                    
+                    visited[i] = True
+                    
+                    if i == ev :
+                        ans = []
+                        ans.append(ev)
+                        value = mapp[ev]
+                        
+                        while value != sv :
+                            ans.append(value)
+                            value = mapp[value]
+                        
+                        ans.append(value)
+                        return ans
+    
+        return []
+        
+        
+    def getPathBFS(self, sv, ev) :
+        
+        # Return empty list in case sv or ev is invalid
+        if (sv > (self.nVertices - 1)) or (ev > (self.nVertices - 1)) :
+            return list()
+        visited = [False for i in range(self.nVertices)]
+        return self.__getPathBFS(sv, ev, visited)
+        
+
+# Main
+li = stdin.readline().strip().split()
+V = int(li[0])
+E = int(li[1])
+
+g = Graph(V)
+
+for i in range(E) :
+    arr = stdin.readline().strip().split()
+    fv = int(arr[0])
+    sv = int(arr[1])
+    g.addEdge(fv, sv)
+
+li = stdin.readline().strip().split()
+sv = int(li[0])
+ev = int(li[1])
+
+li = g.getPathBFS(sv, ev)
+
+if len(li) != 0 :
+	for element in li :
+		print(element, end = ' ')
+
+""" "\n"\t
+
+#Is Connected
+
+"""
+
+# Write your code here
+import sys
+sys.setrecursionlimit(10000)
+
+class Graph:
+    def __init__(self, V):
+        self.V = V
+        self.adj = [[] for i in range(V)]
+ 
+    def DFSUtil(self, temp, v, visited):
+ 
+        visited[v] = True
+ 
+        temp.append(v)
+ 
+        for i in self.adj[v]:
+            if visited[i] == False:
+ 
+                temp = self.DFSUtil(temp, i, visited)
+        return temp
+ 
+    def addEdge(self, v, w):
+        self.adj[v].append(w)
+        self.adj[w].append(v)
+ 
+    def connectedComponents(self):
+        visited = []
+        cc = []
+        for i in range(self.V):
+            visited.append(False)
+        for v in range(self.V):
+            if visited[v] == False:
+                temp = []
+                sorted_arr = self.DFSUtil(temp, v, visited)
+                cc.append(sorted_arr)
+                if len(cc) > 2:
+                    return False
+        return True
+ 
+ 
+v = input().split(" ")
+V = int(v[0])
+E = int(v[1])
+g = Graph(V)
+for i in range(0, E):
+    e = input().split(" ")
+    g.addEdge(int(e[0]), int(e[1]))
+cc = g.connectedComponents()
+if cc:
+    print('true')
+else:
+    print('false')
+
+
+""" "\n"\t
+
+#All connected Components
+
+"""
+
+import sys 
+sys.setrecursionlimit(10**9)
+class Graph:
+    # init function to declare class variables
+    def __init__(self, V):
+        self.V = V
+        self.adj = [[] for _ in range(V)]
+    
+    # Method to add an undirected edge
+    def addEdge(self, v, w):
+        self.adj[v].append(w)
+        self.adj[w].append(v)
+    
+    # Utility method for DFS
+    def DFSUtil(self, v, visited, component):
+        visited[v] = True
+        component.append(v)
+        
+        for i in self.adj[v]:
+            if not visited[i]:
+                self.DFSUtil(i, visited, component)
+    
+    # Method to retrieve connected components in an undirected graph
+    def connectedComponents(self):
+        visited = [False] * self.V
+        components = []
+        
+        for v in range(self.V):
+            if not visited[v]:
+                component = []
+                self.DFSUtil(v, visited, component)
+                components.append(sorted(component))
+        
+        return components
+
+# Main function to read input and print connected components
+if __name__ == "__main__":
+    # Read number of vertices and edges
+    V, E = map(int, input().split())
+    
+    # Create a graph
+    g = Graph(V)
+    
+    # Add edges to the graph
+    for _ in range(E):
+        v, w = map(int, input().split())
+        g.addEdge(v, w)
+    
+    # Find and print all connected components
+    components = g.connectedComponents()
+    for component in components:
+        print(" ".join(map(str, component)))
+
+""" "\n"\t
+
+#Coding Ninjas
+
+"""
+
+def dfs(matrix, word, row, col, index):
+   if index == len(word):
+       return True
+   if (row < 0 or row >= len(matrix)) or (col < 0 or col >= len(matrix[0])) or matrix[row][col] != word[index]:
+       return False
+   matrix[row][col] = '#'
+   for i in range(-1, 2):
+       for j in range(-1, 2):
+           if dfs(matrix, word, row + i, col + j, index + 1):
+               return True
+   matrix[row][col] = word[index]
+   return False
+def has_path(matrix, word):
+   for row in range(len(matrix)):
+       for col in range(len(matrix[0])):
+           if dfs(matrix, word, row, col, 0):
+               return True
+   return False
+n, m = map(int, input().split())
+matrix = []
+for _ in range(n):
+   matrix.append(list(input().strip()))
+word = "CODINGNINJA"
+if has_path(matrix, word):
+   print(1)
+else:
+   print(0)
+
+""" "\n"\t
+
+#Connecting Dots
+
+"""
+
+def is_cycle_present(board, n, m):
+    visited = [[False] * m for _ in range(n)]
+
+    def dfs(x, y, from_x, from_y, color):
+        visited[x][y] = True
+
+        # All possible movements (up, down, left, right)
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+
+            # Check if the new position is inside the board
+            if 0 <= nx < n and 0 <= ny < m:
+                # If the next cell has the same color
+                if board[nx][ny] == color:
+                    if not visited[nx][ny]:
+                        # If the cell has not been visited, continue DFS
+                        if dfs(nx, ny, x, y, color):
+                            return True
+                    elif (nx, ny) != (from_x, from_y):
+                        # If we found a previously visited cell that is not the parent, we found a cycle
+                        return True
+
+        return False
+
+    # Traverse every cell in the board
+    for i in range(n):
+        for j in range(m):
+            if not visited[i][j]:
+                # If not visited, start a DFS from this cell
+                if dfs(i, j, -1, -1, board[i][j]):
+                    return True
+
+    return False
+
+
+# Input reading
+n, m = map(int, input().split())
+board = [input().strip() for _ in range(n)]
+
+# Solving the problem
+if is_cycle_present(board, n, m):
+    print("true")
+else:
+    print("false")
+
+
+""" "\n"\t
+
+#Cycle Detection in Undirected Graph
+
+"""
+
+def is_cycle_present(adj_list, visited, current_node, parent):
+    visited[current_node] = True
+
+    for neighbor in adj_list[current_node]:
+        if not visited[neighbor]:
+            if is_cycle_present(adj_list, visited, neighbor, current_node):
+                return True
+        elif neighbor != parent:
+            return True
+
+    return False
+
+def cycleDetection(edges, n, m):
+    # Create adjacency list
+    adj_list = [[] for _ in range(n)]
+    for u, v in edges:
+        adj_list[u - 1].append(v - 1)
+        adj_list[v - 1].append(u - 1)
+
+    visited = [False] * n
+
+    for i in range(n):
+        if not visited[i]:
+            if is_cycle_present(adj_list, visited, i, -1):
+                return "Yes"
+    return "No"
+
+pass
+
+""" "\n"\t
+
+#Detect Cycle in a Directed Graph
+
+"""
+
+class Graph:
+    def __init__(self, n)-> None:
+        self.g = [[] for _ in range(n + 1)]
+        self.recStack = [False for _ in range(n+1)]
+        self.isCyclePresent = False
+
+    def add_edge(self, u, v):
+        self.g[u].append(v)
+        
+def DFS(u, color, graph):
+    # This vertex will be ancestor of the future vertices.
+    color[u] = 1
+    # Iterate through all adjacent vertices.
+    for i in range(len(graph[u])):
+        v = graph[u][i]
+        # Check for the back edge.
+        if color[v] == 1:
+            return True
+        # Check if v is not visited and there is a back edge in subtree rooted with v.
+        if color[v] == 0 and DFS(v, color, graph):
+            return True
+    # Mark this vertex as visited.
+    color[u] = 2
+    return False
+
+def isCyclic(edges, v, e):
+    # Adjacency list for the given sets of edges.
+    graph = [[] for i in range(v + 1)]
+    # Adding edges in the graph (adjacency list).
+    for i in range(e):
+        graph[edges[i][0]].append(edges[i][1])
+    # Initialize color of all vertices as unvisited.
+    color = [0 for i in range(v + 1)]
+    # Do a DFS traversal if the node is unvisited.
+    for i in range(v):
+        if color[i] == 0 and DFS(i, color, graph):
+            return True
+    return False
+
+""" "\n"\t
+
+#3 Cycle
+
+"""
+from collections import defaultdict
+
+class Graph:
+    def __init__(self, vertices):
+        self.V = vertices
+        self.graph = defaultdict(list)
+    
+    def add_edge(self, u, v):
+        self.graph[u].append(v)
+        self.graph[v].append(u)
+    
+    def count_3_cycles(self):
+        count = 0
+        for i in range(self.V):
+            for j in self.graph[i]:
+                if j > i:
+                    for k in self.graph[j]:
+                        if k > j and i in self.graph[k]:
+                            count += 1
+        return count
+
+
+def read_input():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    N = int(data[0])
+    M = int(data[1])
+    
+    edges = []
+    index = 2
+    for _ in range(M):
+        u = int(data[index])
+        v = int(data[index + 1])
+        edges.append((u, v))
+        index += 2
+        
+    return N, M, edges
+
+def print_output(result):
+    print(result)
+
+
+
+def main():
+    N, M, edges = read_input()
+    graph = Graph(N)
+    
+    for u, v in edges:
+        graph.add_edge(u, v)
+    
+    result = graph.count_3_cycles()
+    print_output(result)
+
+if __name__ == "__main__":
+    main()
+
+""" "\n"\t
+
+#strongly Connected Components(Trajan's Algorithm)
+
+"""
+
+def stronglyConnectedComponents(n, edges):
+    # Write your code here
+    graph = [[] for _ in range(n)]
+    rev_graph = [[] for _ in range(n)]
+
+    for edge in edges:
+        u, v = edge
+        graph[u].append(v)
+        rev_graph[v].append(u)
+
+    def dfs(node,visited,stack,graph):
+        visited[node]=True
+
+        for neighbour in graph[node]:
+            if not visited[neighbour]:
+                dfs(neighbour,visited,stack,graph)
+        stack.append(node)
+
+    def dfs_scc(node,visited,scc,rev_graph):
+        visited[node]=True
+        scc.append(node)
+        for neighbour in rev_graph[node]:
+            if not visited[neighbour]:
+                dfs_scc(neighbour,visited,scc,rev_graph)
+
+    visited = [False]*n
+    stack = []
+    for i in range(n):
+        if not visited[i]:
+            dfs(i,visited,stack,graph)
+
+    visited = [False]*n
+    scc_list=[]
+    while stack:
+        node = stack.pop()
+        if not visited[node]:
+            scc = []
+            dfs_scc(node,visited,scc,rev_graph)
+            scc_list.append(scc)
+
+    return scc_list
+
+""" "\n"\t
+
