@@ -1,0 +1,319 @@
+#K Largest Elements
+
+
+"""
+
+import heapq
+
+def kLargest(lst, k):
+    if k <= 0:
+        return []
+
+    min_heap = lst[:k]
+    heapq.heapify(min_heap)
+
+    for num in lst[k:]:
+        if num > min_heap[0]:
+            heapq.heappop(min_heap)
+            heapq.heappush(min_heap, num)
+
+    return sorted(min_heap, reverse=True)
+
+# Main Code
+n = int(input())
+lst = list(int(i) for i in input().strip().split(' '))
+k = int(input())
+ans = kLargest(lst, k)
+print(*ans, sep='\n')
+
+
+""" "\n"\t
+
+#Last Stone Weight
+
+"""
+
+from sys import stdin
+import sys
+from queue import PriorityQueue
+
+def weightOfLastStone(stones, n):
+    pq = PriorityQueue()
+    
+    # Insert all stones into the priority queue as negative values
+    for i in range(n):
+        pq.put(-stones[i])
+    
+    while pq.qsize() > 1:
+        # Get the two heaviest stones
+        x = -pq.get()
+        y = -pq.get()
+        
+        # If the weights are not equal, push the difference back into the queue
+        if x > y:
+            pq.put(-(x - y))
+    
+    # If no stones are left, return 0
+    if pq.qsize() == 0:
+        return 0
+    
+    # Return the weight of the last remaining stone
+    return -pq.get()
+
+# Function to take input using fast I/O
+def takeInput():
+    n = int(input())
+    stones = list(map(int, input().strip().split(" ")))
+    return stones, n
+
+# Main execution
+stones, n = takeInput()
+print(weightOfLastStone(stones, n))
+
+
+""" "\n"\t
+
+#K most Frequent Elements
+
+"""
+
+from typing import List
+
+def KMostFrequent(n: int, k: int, arr: List[int]) -> List[int]:
+    # Create a frequency map
+    mp = {}
+    for i in range(n):
+        if arr[i] in mp:
+            mp[arr[i]] += 1
+        else:
+            mp[arr[i]] = 1
+    
+    # Convert frequency map to a list of tuples (element, frequency)
+    freq_list = [(key, value) for key, value in mp.items()]
+    
+    # Sort by frequency (descending) and then by element value (descending)
+    freq_list.sort(key=lambda x: (x[1], x[0]), reverse=True)
+    
+    # Extract the top k elements
+    result = [freq_list[i][0] for i in range(k)]
+    
+    return result
+
+
+""" "\n"\t
+
+#Buy the Ticket
+
+"""
+
+from sys import stdin
+import sys
+import heapq as heap
+
+class LinkedListNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class Queue:
+    def __init__(self):
+        self.head = None 
+        self.tail = None
+        self.size = 0
+        
+    def enqueue(self, data):
+        newNode = LinkedListNode(data)
+        if self.head is None:
+            self.head = self.tail = newNode
+        else:
+            self.tail.next = newNode
+            self.tail = newNode
+        self.size += 1
+        return
+        
+    def dequeue(self):
+        if self.head is None:
+            return None
+        data = self.head.data
+        self.head = self.head.next
+        self.size -= 1
+        return data
+    
+    def getSize(self):
+        return self.size
+    
+    def isEmpty(self):
+        return self.head is None
+    
+    def peek(self):
+        if self.head is None:
+            return None
+        return self.head.data
+    
+def buyTicket(arr, n, k):
+    maxHeap = []
+    heap.heapify(maxHeap)
+    q = Queue()
+    
+    # Enqueue all elements and add to max heap
+    for element in arr:
+        q.enqueue(element)
+        heap.heappush(maxHeap, -1 * element)  # Use negative to simulate max-heap in Python
+    
+    count = 0
+    while len(maxHeap) != 0:
+        if q.peek() == -1 * maxHeap[0]:  # If the front of the queue has the highest priority
+            if k == 0:
+                return count + 1
+            else:
+                count += 1
+                q.dequeue()
+                heap.heappop(maxHeap)
+                k -= 1
+        else:
+            q.enqueue(q.peek())
+            q.dequeue()
+            if k == 0:
+                k = q.getSize() - 1
+            else:
+                k -= 1
+    return count
+
+# Taking input using fast I/O
+def takeInput():
+    n = int(stdin.readline().strip())
+    if n == 0:
+        return n, list(), int(stdin.readline().strip())
+    arr = list(map(int, stdin.readline().strip().split(" ")))
+    k = int(stdin.readline().strip())
+    return n, arr, k
+
+# Main
+sys.setrecursionlimit(10**6)
+n, arr, k = takeInput()
+print(buyTicket(arr, n, k))
+
+
+""" "\n"\t
+
+#Check Max Heap
+
+"""
+
+def checkMaxHeap(lst):
+    #############################
+    # PLEASE ADD YOUR CODE HERE #
+    #############################
+    n = len(lst)
+    
+    for i in range(n // 2):
+        left = 2 * i + 1
+        right = 2 * i + 2
+        
+        # Check if the current node is greater than its left child
+        if left < n and lst[i] < lst[left]:
+            return False
+        
+        # Check if the current node is greater than its right child
+        if right < n and lst[i] < lst[right]:
+            return False
+    
+    return True
+
+# Main Code
+n=int(input())
+lst=list(int(i) for i in input().strip().split(' '))
+print('true') if checkMaxHeap(lst) else print('false')
+
+""" "\n"\t
+
+#K=th Largest Sum Subarray
+
+"""
+
+import heapq
+
+def getKthLargest(arr, k):
+    n = len(arr)
+    min_heap = []
+    
+    # Iterate over all possible subarrays
+    for start in range(n):
+        current_sum = 0
+        for end in range(start, n):
+            current_sum += arr[end]
+            
+            # If the heap has fewer than k elements, push the current sum
+            if len(min_heap) < k:
+                heapq.heappush(min_heap, current_sum)
+            # If the heap is full and the current sum is larger than the smallest sum in the heap
+            elif current_sum > min_heap[0]:
+                heapq.heappushpop(min_heap, current_sum)
+    
+    # The root of the heap is the Kth largest element
+    return min_heap[0]
+
+
+""" "\n"\t
+
+#Fourth Largest element in the Array 
+
+"""
+
+import heapq
+def getFourthLargest(arr, n):
+    # Write your code here
+    pass
+    if len(arr) < 4:
+        return -2147483648
+
+    # Initialize an empty min-heap
+    min_heap = []
+
+    # Iterate over each element in the array
+    for n in arr:
+        if len(min_heap) < 4:
+            heapq.heappush(min_heap, n)
+        else:
+            if n> min_heap[0]:
+                heapq.heapreplace(min_heap, n)
+
+    # The root of the heap is the fourth largest element
+    return min_heap[0]
+
+""" "\n"\t
+
+#Kth Minimum Floor
+
+"""
+
+import heapq
+import sys
+
+def kMinFloor(squareCity, n, k):
+    min_heap = []
+    heapq.heappush(min_heap, (squareCity[0][0], 0, 0))  # Push (floors, row, col) of the top-left building
+    
+    # Use a set to avoid pushing the same element multiple times
+    visited = set((0, 0))
+
+    for _ in range(k):
+        floors, row, col = heapq.heappop(min_heap)
+        
+        # If we've extracted Kth element, return it
+        if _ == k - 1:
+            return floors
+        
+        # Push the next building in the row (if exists)
+        if col + 1 < n and (row, col + 1) not in visited:
+            heapq.heappush(min_heap, (squareCity[row][col + 1], row, col + 1))
+            visited.add((row, col + 1))
+        
+        # Push the next building in the column (if exists)
+        if row + 1 < n and (row + 1, col) not in visited:
+            heapq.heappush(min_heap, (squareCity[row + 1][col], row + 1, col))
+            visited.add((row + 1, col))
+    return -1
+
+
+""" "\n"\t
