@@ -1,0 +1,594 @@
+#Sum of all Nodes
+
+"""
+
+import sys
+import queue
+
+class TreeNode :
+    def __init__(self, data) :
+        self.data = data
+        self.children = list()
+
+def inputLevelWise(li) :
+    i = 0
+    data = li[i] 
+    i += 1
+    if data == -1 :
+        return None
+    root = TreeNode(data) 
+    q = queue.Queue()
+    q.put(root)
+    while (not q.empty()) :
+        frontNode = q.get()
+        noOfChildren = li[i]
+        i += 1
+        childrenArray = li[i : i+noOfChildren]
+        for childData in childrenArray :
+            childNode = TreeNode(childData)
+            frontNode.children.append(childNode)
+            q.put(childNode)
+        i = i+noOfChildren
+    return root
+        
+def sumOfAllNodes(root) :
+    #############################
+    # PLEASE ADD YOUR CODE HERE #
+    #############################
+    if root==None:
+        return 0
+    sum=root.data
+    for child in root.children:
+        sum=sum+sumOfAllNodes(child)
+    return sum
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+#main
+sys.setrecursionlimit(10**6)
+li = [int(elem) for elem in list(input().strip().split())]
+root = inputLevelWise(li)
+print(sumOfAllNodes(root))
+
+""" "\n"\t
+
+#Node with the Largest Data
+
+""" 
+
+import sys
+sys.setrecursionlimit(3000)  # Increase the recursion limit to handle deep trees
+from sys import stdin  # Import stdin for fast input handling
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data  # Store the data in the node
+        self.children = []  # Initialize an empty list of children
+    def __str__(self):
+        return str(self.data)  # Provide a string representation of the node's data
+
+def maxDataNode(tree):
+    #############################
+    # PLEASE ADD YOUR CODE HERE #
+    #############################
+    if not tree:  # If the tree is empty, return None
+        return None
+    
+    maxNode = tree  # Assume that the root node has the maximum data initially
+    for child in tree.children:  # Iterate over all children of the current node
+        temp = maxDataNode(child)  # Recursively find the maximum node in the subtree
+        if temp.data > maxNode.data:  # Compare with the current maximum node
+            maxNode = temp  # Update the maximum node if a larger one is found
+            
+    return maxNode  # Return the node with the maximum data
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))  # Create the root node with the first element of the array
+    q = [root]  # Initialize a queue with the root node
+    size = len(arr)  # Get the size of the input array
+    i = 1  # Start processing from the second element of the array
+    while i < size:  # Process the array until the end
+        parent = q.pop(0)  # Get the next node to process (the parent node)
+        childCount = int(arr[i])  # Get the number of children for the parent node
+        i += 1  # Move to the next element in the array
+        for j in range(0, childCount):  # Process each child
+            temp = treeNode(int(arr[i + j]))  # Create a child node with the next element
+            parent.children.append(temp)  # Add the child node to the parent node's children
+            q.append(temp)  # Add the child node to the queue for further processing
+        i += childCount  # Move past the processed children
+    
+    return root  # Return the root of the constructed tree
+
+# Main
+arr = list(int(x) for x in stdin.readline().rstrip().rsplit())  # Read and process input
+tree = createLevelWiseTree(arr)  # Create the tree from the input array
+print(maxDataNode(tree).data)  # Find and print the data of the node with the maximum value
+
+
+""" "\n"\t
+
+#Height of generic Tree
+
+"""
+
+import queue, sys
+
+class TreeNode :
+    def __init__(self, data) :
+        self.data = data
+        self.children = list()
+
+def inputLevelWise() :
+    li = [int(elem) for elem in list(input().strip().split())]
+    i = 0
+    data = li[i] 
+    i += 1
+    if data == -1 :
+        return None
+    root = TreeNode(data) 
+    q = queue.Queue()
+    q.put(root)
+    while (not q.empty()) :
+        frontNode = q.get()
+        noOfChildren = li[i]
+        i += 1
+        childrenArray = li[i : i+noOfChildren]
+        for childData in childrenArray :
+            childNode = TreeNode(childData)
+            frontNode.children.append(childNode)
+            q.put(childNode)
+        i = i+noOfChildren
+    return root
+        
+
+def height(root) :
+    if root == None :
+        return 0
+    ans = 0
+    for child in root.children :
+        childHeight = height(child) 
+        if childHeight > ans :
+            ans = childHeight
+    return ans+1
+
+
+#main
+sys.setrecursionlimit(10**6)
+root = inputLevelWise()
+print(height(root))
+
+""" "\n"\t
+
+#Print tree LevelWise
+
+"""
+
+import sys
+import queue
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+    def __str__(self):
+        return str(self.data)
+
+def printLevelWiseTree(tree):
+    if not tree:
+        return
+    
+    q = [tree]
+    while q:
+        parent = q.pop(0)
+        # Corrected print statement
+        print(parent.data, ':', ",".join(str(child) for child in parent.children), sep='')
+        
+        for child in parent.children:
+            q.append(child)
+
+    
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+sys.setrecursionlimit(10**6)
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+printLevelWiseTree(tree)
+
+""" "\n"\t
+
+#Count x
+
+"""
+
+from sys import stdin, setrecursionlimit
+import queue
+
+setrecursionlimit(10**6)  # Increase recursion limit for deep trees
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+    
+    def __str__(self):
+        return str(self.data)
+
+def containsX(tree, x):
+    if tree is None:  # If the tree is empty, return False
+        return False
+    
+    q = queue.Queue()  # Initialize a queue for BFS
+    q.put(tree)  # Start with the root node
+    
+    while not q.empty():  # While there are nodes to process
+        current_node = q.get()  # Get the front node in the queue
+        
+        if current_node.data == x:  # Check if the current node contains the value x
+            return True
+        
+        # Add all children of the current node to the queue
+        for child in current_node.children:
+            q.put(child)
+    
+    return False  # Return False if x was not found in any node
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))  # Create the root node
+    q = [root]  # Initialize a queue with the root node
+    size = len(arr)  # Get the size of the input array
+    i = 1  # Start processing from the second element of the array
+    
+    while i < size:  # Process until the end of the array
+        parent = q.pop(0)  # Get the next node to process (the parent node)
+        childCount = int(arr[i])  # Number of children for the parent node
+        i += 1  # Move to the next element in the array
+        
+        for j in range(childCount):  # Process each child
+            temp = treeNode(int(arr[i + j]))  # Create a child node
+            parent.children.append(temp)  # Add the child node to the parent node's children
+            q.append(temp)  # Add the child node to the queue for further processing
+        
+        i += childCount  # Move past the processed children
+    
+    return root  # Return the root of the constructed tree
+
+# Main
+
+arr = list(map(int, stdin.readline().strip().split()))  # Read and process input array
+x = int(stdin.readline().strip())  # Read the value to be searched
+tree = createLevelWiseTree(arr)  # Create the tree from the input array
+
+if containsX(tree, x):
+    print('true')  # Print 'true' if x is found
+else:
+    print('false')  # Print 'false' if x is not found
+
+""" "\n"\t
+
+#Count Leaf Nodes
+
+"""
+
+import sys
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+    def __str__(self):
+        return str(self.data)
+import queue
+def leafNodeCount(tree):
+    #############################
+    # PLEASE ADD YOUR CODE HERE #
+    #############################
+    if not tree:
+        return 0
+    if len(tree.children)==0:
+        return 1
+    cnt=0
+    for child in tree.children:
+        cnt += leafNodeCount(child)   
+    return cnt   
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+sys.setrecursionlimit(10**6)
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+print(leafNodeCount(tree))
+
+""" "\n"\t
+
+
+#Node with Maximum child sum
+
+"""
+
+from sys import stdin,setrecursionlimit
+setrecursionlimit(10**6)
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+    def sum(self):
+        ans = self.data
+        for child in self.children:
+            ans += child.data
+        return ans
+
+def maxSumUtil(root,resNode,maxsum):
+    if root == None:
+        return
+ 
+    # curr contains the sum of the root
+    # and its children
+    currsum = root.data
+ 
+    # total no of children
+    count = len(root.children)
+ 
+    # for every child call recursively
+    for child in root.children:
+        currsum+=child.data
+        resNode, maxsum = maxSumUtil(child, resNode, maxsum)
+ 
+    if currsum > maxsum:
+ 
+        # resultant node
+        resNode = root
+        maxsum = currsum
+     
+    return resNode, maxsum
+ 
+# Function to find the node having
+# max sum of children and node
+def maxSumNode(root):
+ 
+    resNode, maxsum = None, 0
+    resNode, maxsum = maxSumUtil(root, resNode,maxsum)
+ 
+    # return the key of resultant node
+    return resNode,maxsum
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+arr = list(int(x) for x in stdin.readline().strip().split())
+tree = createLevelWiseTree(arr)
+temp, tempSum = maxSumNode(tree)
+print(temp.data)
+
+""" "\n"\t
+
+#Structurally Identical
+
+"""
+
+from sys import stdin,setrecursionlimit
+setrecursionlimit(10**6)
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+        
+def isIdentical(tree1, tree2):
+    #############################
+    # PLEASE ADD YOUR CODE HERE #
+    #############################
+    if not tree1:
+        if not tree2:
+            return True
+        return False
+    if (tree1.data != tree2.data) or len(tree1.children) != len(tree2.children):
+        return False
+    for child1, child2 in zip(tree1.children, tree2.children):
+        if not isIdentical(child1, child2):
+            return False
+    return True
+
+
+
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+arr1 = list(int(x) for x in stdin.readline().strip().split())
+tree1 = createLevelWiseTree(arr1)
+arr2 = list(int(x) for x in stdin.readline().strip().split())
+tree2 = createLevelWiseTree(arr2)
+if isIdentical(tree1, tree2):
+    print('true')
+else:
+    print('false')
+
+""" "\n"\t
+
+#Next Larger
+
+"""
+
+from sys import stdin,setrecursionlimit
+setrecursionlimit(10**6)
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+
+def nextLargest(tree, n):
+    #############################
+    # PLEASE ADD YOUR CODE HERE #
+    #############################
+    ans = None
+    if not tree:
+        return ans
+    if tree.data > n:
+        ans = tree
+    for child in tree.children:
+        temp = nextLargest(child, n)
+        if temp:
+            if (not ans) or ans.data > temp.data:
+                ans = temp
+    return ans
+
+
+
+
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+arr = list(int(x) for x in stdin.readline().strip().split())
+n = int(input())
+tree = createLevelWiseTree(arr)
+if nextLargest(tree, n):
+    print(nextLargest(tree, n).data)
+
+""" "\n"\t
+
+#Replace with depth
+
+"""
+
+from sys import stdin, setrecursionlimit
+
+setrecursionlimit(10**6)
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+
+def replacewithDepthHelper(tree, depth):
+    if not tree:
+        return
+
+    tree.data = depth
+
+    for child in tree.children:
+        replacewithDepthHelper(child, depth + 1)
+
+def replacewithDepth(tree):
+    replacewithDepthHelper(tree, 0)
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i < size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0, childCount):
+            temp = treeNode(int(arr[i + j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+def printLevelAtNewLine(tree):
+    q = [tree]
+    newq = []
+    while q:
+        parent = q.pop(0)
+        print(parent.data, end=' ')
+        for child in parent.children:
+            newq.append(child)
+        if len(q) == 0:
+            q = newq
+            newq = []
+            print()  # Move to the next line
+
+# Main
+arr = list(int(x) for x in stdin.readline().strip().split())
+tree = createLevelWiseTree(arr)
+replacewithDepth(tree)
+printLevelAtNewLine(tree)
+
+
+""" "\n"\t
+
+
+
+
+
+
