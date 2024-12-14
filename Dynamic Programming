@@ -1,0 +1,612 @@
+#Subset Sum equal to K
+
+"""
+
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+dp=[]
+visited = []
+def subsetSumToK(n, k, arr):
+    global dp
+    global visited 
+    dp = [[False for j in range(k+1)] for i in range(n+1)]
+    visited =[[False for j in range(k+1)] for i in range(n+1)]
+    for i in range(n+1):
+        dp[i][0] = True
+    
+    #If size of array = 0, answer always false
+    for j in range(1, k+1):
+        dp[0][j] = False
+        
+    #Filling dp array
+    for i in range(1,n+1):
+        
+        for j in range(1, k+1):
+            
+            dp[i][j] = dp[i - 1][j]
+
+""" "\n"\t
+
+#Partitans with given Difference
+
+
+"""
+
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import List
+MOD = 10**9 + 7
+
+def countPartitions(n: int, d: int, arr: List[int]) -> int:
+    total_sum = sum(arr)
+    
+    # If (total_sum + D) is odd or if target < 0, no valid partition exists
+    if (total_sum + d) % 2 != 0 or (total_sum + d) < 0:
+        return 0
+    
+    target = (total_sum + d) // 2
+    
+    # If target is greater than total_sum or target is negative, no valid partitions
+    if target > total_sum or target < 0:
+        return 0
+    
+    dp = [0] * (target + 1)
+    dp[0] = 1
+    
+    # Iterate over each element in arr
+    for num in arr:
+        # Update the dp array in reverse order to prevent overwriting
+        for j in range(target, num - 1, -1):
+            dp[j] = (dp[j] + dp[j - num]) % MOD
+    
+    return dp[target]
+
+
+
+""" "\n"\t
+
+#Partitian Equal Subset sum
+
+
+"""
+
+def subsetSumUtil(ind, target, arr, dp):
+    # Base case: If the target sum is 0, we have found a subset that sums to the target.
+    if target == 0:
+        return True
+    
+    # Base case: If we have reached the first element of the array, check if it equals the target.
+    if ind == 0:
+        return arr[0] == target
+    
+    # Check if the result for this combination of 'ind' and 'target' has already been computed.
+    if dp[ind][target] != -1:
+        return dp[ind][target]
+    
+    # Recursive cases:
+    # 1. Try not taking the current element.
+    notTaken = subsetSumUtil(ind - 1, target, arr, dp)
+    
+    # 2. Try taking the current element if it is less than or equal to the target.
+    taken = False
+    if arr[ind] <= target:
+        taken = subsetSumUtil(ind - 1, target - arr[ind], arr, dp)
+        
+    # Update the DP table and return the result.
+    dp[ind][target] = notTaken or taken
+    return dp[ind][target]
+
+def canPartition(arr, n):
+    # Write your code here.
+    totSum = sum(arr)
+    
+    # If the total sum is odd, it cannot be partitioned into two equal subsets.
+    if totSum % 2 == 1:
+        return False
+    else:
+        # Calculate the target sum for each subset.
+        k = totSum // 2
+        
+        # Initialize a memoization table for dynamic programming.
+        dp = [[-1 for i in range(k + 1)] for j in range(n)]
+        
+        # Call the subsetSumUtil function to check if a subset with sum 'k' exists.
+        return subsetSumUtil(n - 1, k, arr, dp)
+
+""" "\n"\t
+
+#Number of Subsets
+
+"""
+
+"""from typing import List
+
+def findWays(arr: List[int], k: int) -> int:
+    # Write your code here.
+    pass
+    global dp
+    dp=[]
+    count =0
+    sum=input()
+    if (i == n):
+        if (sum == 0):
+            count += 1
+        return count
+
+        count = findWays(arr, k)
+        count = findWays(arr, k)
+        return dp[]
+ """
+from typing import List
+
+MOD = 10**9 + 7
+
+def findWays(arr: List[int], k: int) -> int:
+    n = len(arr)
+    # Create a DP table initialized to 0
+    dp = [[0] * (k + 1) for _ in range(n + 1)]
+    
+    # Base case: There's exactly one way to get sum 0: by selecting no elements
+    dp[0][0] = 1
+    
+    # Fill the DP table
+    for i in range(1, n + 1):
+        for j in range(k + 1):
+            # If we don't take the current element
+            dp[i][j] = dp[i-1][j]
+            # If we take the current element, and it's valid to include it
+            if j >= arr[i-1]:
+                dp[i][j] = (dp[i][j] + dp[i-1][j - arr[i-1]]) % MOD
+    
+    # The result is the number of ways to get sum k using all n elements
+    return dp[n][k]
+
+
+""" "\n"\t
+
+#Count subsets with Sum K
+
+"""
+
+"""from typing import List
+
+def findWays(arr: List[int], k: int) -> int:
+    # Write your code here.
+    pass
+    global dp
+    dp=[]
+    count =0
+    sum=input()
+    if (i == n):
+        if (sum == 0):
+            count += 1
+        return count
+
+        count = findWays(arr, k)
+        count = findWays(arr, k)
+        return dp[]
+ """
+from typing import List
+
+MOD = 10**9 + 7
+
+def findWays(arr: List[int], k: int) -> int:
+    n = len(arr)
+    # Create a DP table initialized to 0
+    dp = [[0] * (k + 1) for _ in range(n + 1)]
+    
+    # Base case: There's exactly one way to get sum 0: by selecting no elements
+    dp[0][0] = 1
+    
+    # Fill the DP table
+    for i in range(1, n + 1):
+        for j in range(k + 1):
+            # If we don't take the current element
+            dp[i][j] = dp[i-1][j]
+            # If we take the current element, and it's valid to include it
+            if j >= arr[i-1]:
+                dp[i][j] = (dp[i][j] + dp[i-1][j - arr[i-1]]) % MOD
+    
+    # The result is the number of ways to get sum k using all n elements
+    return dp[n][k]
+
+
+""" "\n"\t
+
+#0/1 Knapsack Problem
+
+"""
+
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+## Read input as specified in the question.
+## Print output as specified in the question.
+def f(n,w,W,v)->int:
+    global dp
+    if n==0 or w==0:
+        return 0
+    if dp[n][w]!=-1:
+        return dp[n][w]
+    if W[n-1]<=w:
+        dp[n][w]=max(f(n-1,w-W[n-1],w,v)+v[n-1],f(n-1,w,W,v))
+    else:
+        dp[n][w]=f(n-1,w,W,v)
+    return dp[n][w]
+
+if __name__ == "__main__":
+    t = int(input())
+    for query in range(t):
+        n = int(input())
+        weights = list(map(int, input().strip().split(" ")))
+        values = list(map(int, input().strip().split(" ")))
+        w = int(input())
+
+        # Initialize dp array with -1
+        dp = [[-1 for j in range(w + 1)] for i in range(n + 1)]
+
+        # Base cases: If n is 0 or w is 0, then knapsack value is 0
+        for i in range(n + 1):
+            dp[i][0] = 0
+        for j in range(w + 1):
+            dp[0][j] = 0
+
+        # Calculate knapsack value using dynamic programming
+        for i in range(1, n + 1):
+            for j in range(1, w + 1):
+                dp[i][j] = dp[i - 1][j]
+                if weights[i - 1] <= j:
+                    dp[i][j] = max(dp[i][j], dp[i - 1][j - weights[i - 1]] + values[i - 1])
+
+        print(dp[n][w])
+
+""" "\n"\t
+
+#Minimum Elements
+
+"""
+
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import List
+
+def minimumElements(num: List[int], x: int) -> int:
+    # Write your code here.
+    dp = [float('inf')] * (x + 1)
+    dp[0] = 0  # Base case: 0 elements needed to reach sum 0
+    
+    for i in range(1, x + 1):
+        for nums in num:
+            if i - nums >= 0:
+                dp[i] = min(dp[i], dp[i - nums] + 1)
+    
+    return dp[x] if dp[x] != float('inf') else -1
+
+""" "\n"\t
+
+#Longest Common Sequence(LCS)
+
+"""
+
+def longestCommonSubsequence(S, T):
+    M, N = len(S), len(T)
+    
+    # Create a DP table with dimensions (M+1) x (N+1)
+    dp = [[0] * (N + 1) for _ in range(M + 1)]
+    
+    # Fill the DP table
+    for i in range(1, M + 1):
+        for j in range(1, N + 1):
+            if S[i - 1] == T[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    
+    # The length of the LCS will be in dp[M][N]
+    return dp[M][N]
+
+# Reading input
+S = input().strip()
+T = input().strip()
+
+# Computing the result
+print(longestCommonSubsequence(S, T))
+
+
+""" "\n"\t
+
+#Longest Increasing Subsequence(LIS)
+
+"""
+
+import bisect
+
+def longestIncreasingSubsequence(arr, n):
+    # List to store the smallest tail of all increasing subsequences
+    # with different lengths.
+    lis = []
+    
+    for num in arr:
+        # Use binary search to find the index at which 'num' can be placed.
+        index = bisect.bisect_left(lis, num)
+        
+        # If 'num' is larger than any element in lis, it extends the lis.
+        if index == len(lis):
+            lis.append(num)
+        else:
+            # Otherwise, replace the existing value with 'num'
+            lis[index] = num
+    
+    # The length of lis is the length of the longest increasing subsequence
+    return len(lis)
+
+# Taking input using fast I/O
+def takeInput():
+    n = int(input())
+    if n == 0:
+        return list(), n
+    arr = list(map(int, input().strip().split(" ")))
+    return arr, n
+
+# Main
+arr, n = takeInput()
+print(longestIncreasingSubsequence(arr, n))
+
+""" "\n"\t
+
+#Longest Palindromic Subsequence
+
+"""
+
+def longestPalindromeSubsequence(s):
+    n = len(s)
+    
+    # Create a dp table to store the lengths of palindromic subsequences
+    dp = [[0] * n for _ in range(n)]
+    
+    # Every single character is a palindrome of length 1
+    for i in range(n):
+        dp[i][i] = 1
+    
+    # Build the dp table
+    for cl in range(2, n + 1):  # cl is the length of the substring
+        for i in range(n - cl + 1):
+            j = i + cl - 1
+            if s[i] == s[j]:
+                dp[i][j] = dp[i + 1][j - 1] + 2
+            else:
+                dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])
+    
+    # The length of the longest palindromic subsequence is in dp[0][n-1]
+    return dp[0][n-1]
+
+
+
+""" "\n"\t
+
+#Matrix Chain Multiplication
+
+"""
+
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def matrixMultiplication(arr, n):
+    # Initialize the dp table with 0
+    dp = [[0] * n for _ in range(n)]
+
+    # Loop through the dp table to calculate the minimum number of operations
+    for i in range(n - 1, 0, -1):
+        for j in range(i + 1, n):
+            mini = float('inf')
+            
+            # Partitioning loop
+            for k in range(i, j):
+                ans = dp[i][k] + dp[k + 1][j] + arr[i - 1] * arr[k] * arr[j]
+                if ans < mini:
+                    mini = ans 
+            
+            dp[i][j] = mini
+    
+    # The result is stored in the top-right corner of the dp table
+    return dp[1][n - 1]
+
+""" "\n"\t
+
+#Target Sum
+
+"""
+
+from collections import *
+from math import *
+
+from typing import List
+def targetSum(arr: List[int], target: int) -> int:
+    n = len(arr)
+    memo = {}
+
+    def count_ways(index, current_sum):
+        # Base case: when all elements are considered
+        if index == n:
+            return 1 if current_sum == target else 0
+        
+        # Check if the result is already in the memo dictionary
+        if (index, current_sum) in memo:
+            return memo[(index, current_sum)]
+
+        # Calculate the number of ways by adding or subtracting the current element
+        ways_add = count_ways(index + 1, current_sum + arr[index])
+        ways_subtract = count_ways(index + 1, current_sum - arr[index])
+
+        # Store the result in the memo dictionary
+        memo[(index, current_sum)] = ways_add + ways_subtract
+        return memo[(index, current_sum)]
+
+    return count_ways(0, 0)
+
+ 
+
+""" "\n"\t
+
+#Maximum Product subarray
+
+"""
+
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def maximumProduct(arr, n):
+    # Initialize the maximum, minimum product for the current position
+    max_prod = min_prod = max_so_far = arr[0]
+
+    for i in range(1, n):
+        if arr[i] < 0:
+            # Swap max_prod and min_prod when arr[i] is negative
+            max_prod, min_prod = min_prod, max_prod
+        
+        # Update max_prod and min_prod
+        max_prod = max(arr[i], max_prod * arr[i])
+        min_prod = min(arr[i], min_prod * arr[i])
+        
+        # Update the result with the maximum product so far
+        max_so_far = max(max_so_far, max_prod)
+
+    return max_so_far
+
+""" "\n"\t
+
+#Ways to make Coin change
+
+"""
+
+from sys import stdin,setrecursionlimit
+setrecursionlimit(10**7)
+def countWaysToMakeChange(denominations, value) :
+    
+	# Your code goes here
+    n = len(denominations)
+    dp = [[0 for j in range(value + 1)] for i in range(n + 1)]
+    for i in range(n + 1):
+        for j in range(value + 1):
+            if i == 0:
+                dp[i][j] = 0
+            elif j == 0:
+                dp[i][j] = 1
+            else:
+                if j - denominations[i - 1] >= 0:
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - denominations[i - 1]]
+                else:
+                    dp[i][j] = dp[i - 1][j]
+    return dp[n][value]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#taking inpit using fast I/O
+def takeInput() :
+    numDenominations = int(input())
+
+    denominations = list(map(int, stdin.readline().strip().split(" ")))
+
+    value = int(input())
+    return denominations, numDenominations, value
+
+
+#main
+denominations, numDenomination, value = takeInput()
+print((countWaysToMakeChange(denominations, value)))
+
+""" "\n"\t
+
+#Shortest Common Supersequence
+
+"""
+
+def shortestSupersequence(a: str, b: str) -> str:
+    m = len(a) 
+    n = len(b)
+    
+    # Create a 2D array to store lengths of longest common subsequence.
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+    # Fill dp array
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if a[i - 1] == b[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+
+    # Now, reconstruct the shortest supersequence from the dp array
+    i, j = m, n
+    superseq = []
+
+    while i > 0 and j > 0:
+        if a[i - 1] == b[j - 1]:
+            superseq.append(a[i - 1])
+            i -= 1
+            j -= 1
+        elif dp[i - 1][j] > dp[i][j - 1]:
+            superseq.append(a[i - 1])
+            i -= 1
+        else:
+            superseq.append(b[j - 1])
+            j -= 1
+
+    # Add remaining characters of a and b
+    while i > 0:
+        superseq.append(a[i - 1])
+        i -= 1
+    while j > 0:
+        superseq.append(b[j - 1])
+        j -= 1
+
+    # Since we collected characters in reverse order, reverse the result
+    superseq.reverse()
+    return ''.join(superseq)
+
+
+
+""" "\n"\t
