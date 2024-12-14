@@ -1,0 +1,404 @@
+#Frog Jump
+
+
+"""
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import *
+
+ 
+
+def f(n: int, heights: List[int], N: int, dp: List[int]) -> int:
+    if n == N-1:
+        return 0
+    if dp[n] != -1:
+        return dp[n]
+
+    jump_one = abs(heights[n] - heights[n+1]) + f(n + 1, heights, N, dp)
+    
+    jump_two = float('inf')
+    if n + 2 < N:
+        jump_two = abs(heights[n] - heights[n+2]) + f(n + 2, heights, N, dp)
+    
+    dp[n] = min(jump_one, jump_two)
+    return dp[n]
+
+def frogJump(n: int, heights: List[int]) -> int:
+    dp = [-1] * n
+    return f(0, heights, n, dp)
+
+""" "\n"\t
+
+#Maximum sum of non-adjacent Elements]
+
+"""
+
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from sys import stdin
+dp = []
+def f(n, m, N, nums):
+    global dp
+    if n == N-1:
+        return nums[n][m]
+
+    if dp[n][m] != -1:
+        return dp[n][m]
+
+    dp[n][m] = min(f(n+1, m, N, nums), f(n+1, m+1, N, nums)) + nums[i][j]
+    return dp[n][m]
+
+def maximumNonAdjacentSum(nums):    
+    n = len(arr)
+    
+    # Base cases
+    if n == 0:
+        return 0
+    if n == 1:
+        return arr[0]
+    
+    # Initialize the DP array
+    dp = [0] * n
+    
+    # Base initialization
+    dp[0] = arr[0]
+    dp[1] = max(arr[0], arr[1])
+    
+    # Fill the dp array
+    for i in range(2, n):
+        # Either take the current element and add dp[i-2] or skip the current element
+        dp[i] = max(arr[i] + dp[i-2], dp[i-1])
+    
+    # The answer will be in the last index of dp array
+    return dp[-1]
+
+
+# Main.
+t = int(stdin.readline().rstrip())
+
+while t > 0:
+    
+    n = int(stdin.readline().rstrip())
+    arr = list(map(int, stdin.readline().rstrip().split(" ")))
+    print(maximumNonAdjacentSum(arr))
+    
+    t -= 1
+
+""" "\n"\t
+
+#Unique Paths
+
+"""
+
+#Traingle
+
+"""
+
+from os import *
+from sys import *
+from collections import *
+from math import *
+def minimumPathSum(triangle, n):
+    
+    for i in range(n - 2, -1, -1):
+        for j in range(i + 1):
+            
+            triangle[i][j] += min(triangle[i + 1][j], triangle[i + 1][j + 1])
+    
+    return triangle[0][0]
+    pass
+
+""" "\n"\t
+
+#Maximum Path Sum
+
+"""
+
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10**7)
+
+def getMaxPathSum(matrix, N, M):
+    for i in range(1, N):
+        for j in range(M):
+            if j > 0 and j < M - 1:
+                matrix[i][j] += max(matrix[i - 1][j], matrix[i - 1][j - 1], matrix[i - 1][j + 1])
+            elif j > 0:
+                matrix[i][j] += max(matrix[i - 1][j], matrix[i - 1][j - 1])
+            elif j < M - 1:
+                matrix[i][j] += max(matrix[i - 1][j], matrix[i - 1][j + 1])
+            else:
+                matrix[i][j] += matrix[i - 1][j]
+    return max(matrix[N - 1])
+
+def takeInput():
+    n_x = stdin.readline().strip().split()
+    n = int(n_x[0].strip())
+    m = int(n_x[1].strip())
+    matrix = [list(map(int, stdin.readline().strip().split())) for _ in range(n)]
+    return matrix, n, m
+
+if __name__ == "__main__":
+    T = int(stdin.readline().strip())
+    results = []
+    while T > 0:
+        T -= 1
+        matrix, n, m = takeInput()
+        results.append(getMaxPathSum(matrix, n, m))
+    
+    for result in results:
+        print(result)
+
+
+
+# from os import *
+# from sys import *
+# from collections import *
+# from math import *
+
+# from sys import stdin, setrecursionlimit
+# setrecursionlimit(10**7)
+
+
+# def getMaxPathSum(matrix):
+
+#     #   Write your code here
+    
+#     for i in range(1, N):
+  
+#         res = -1
+#         for j in range(M):
+  
+#             # When all paths are possible
+#             if (j > 0 and j < M - 1):
+#                 matrix[i][j] += max(matrix[i - 1][j],
+#                                  max(matrix[i - 1][j - 1], 
+#                                      matrix[i - 1][j + 1]))
+  
+#             # When diagonal right is not possible
+#             elif (j > 0):
+#                 matrix[i][j] += max(matrix[i - 1][j],
+#                                  matrix[i - 1][j - 1])
+  
+#             # When diagonal left is not possible
+#             elif (j < M - 1):
+#                 matrix[i][j] += max(matrix[i - 1][j],
+#                                  matrix[i - 1][j + 1])
+  
+#             # Store max path sum
+#             res = max(matrix[i][j], res)
+#     return res
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# #   taking inpit using fast I/O
+# def takeInput() :
+#     n_x = stdin.readline().strip().split(" ")
+#     n = int(n_x[0].strip())
+#     m = int(n_x[1].strip())
+
+#     matrix=[list(map(int, stdin.readline().strip().split(" "))) for row in range(n)]
+
+#     return matrix, n, m
+
+
+# #   main
+# T = int(input())
+# while (T > 0):
+#     T -= 1
+#     matrix, n, m = takeInput()
+#     print(getMaxPathSum(matrix))
+
+""" "\n "\t
+
+#Min Steps to one using DP
+
+"""
+
+from sys import stdin
+from sys import maxsize as MAX_VALUE
+
+
+
+def countMinStepsToOne(n) :
+	if n == 1 :
+		return 0
+		
+	minSteps = [0] * (n + 1)
+	
+	minSteps[1] = 0
+
+	for currStep in range(2, (n + 1)) :
+
+		subtractOne = minSteps[currStep - 1]
+		divideByTwo = MAX_VALUE
+		divideByThree = MAX_VALUE
+		
+		if currStep % 2 == 0 :
+			divideByTwo = minSteps[currStep // 2]
+
+		if currStep % 3 == 0 :
+			divideByThree = minSteps[currStep // 3]
+
+		minSteps[currStep] = 1 + min(subtractOne, divideByTwo, divideByThree)
+
+	return minSteps[n]
+
+
+
+#main
+n = int(stdin.readline().rstrip())
+print(countMinStepsToOne(n))
+
+""" "\n"\t
+
+#Rod Cutting Problem
+
+"""
+from sys import stdin
+import sys
+
+def cutRod(price, n):
+
+    # Write your code here.
+    pass
+
+# Taking input using fast I/O.
+def takeInput():
+    n = int(input())
+
+    price = list(map(int, input().strip().split(" ")))
+
+    return price, n
+
+
+# Main.
+t = int(input())
+while t:
+    price, n = takeInput()
+    print(cutRod(price, n))
+    t = t-1
+
+
+""" "\n"\t
+
+#House Robber-2
+
+"""
+
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def houseRobberUtil(valueInHouse, start, end):
+    
+    valueAtIthHouse = [-1 for i in range(len(valueInHouse))]
+    if (start == 0):
+        valueAtIthHouse[0] = valueInHouse[0]
+        valueAtIthHouse[1] = max(valueInHouse[0], valueInHouse[1])
+
+    else:
+        valueAtIthHouse[0] = 0
+        valueAtIthHouse[1] = valueInHouse[1]
+
+    for i in range(2, end):
+        valueAtIthHouse[i] = max(valueAtIthHouse[i - 2] + valueInHouse[i], valueAtIthHouse[i - 1])
+    return valueAtIthHouse[end - 1]
+
+def houseRobber(valueInHouse):
+    if (len(valueInHouse) == 0):
+        return 0
+
+    if len(valueInHouse) == 1:
+        return valueInHouse[0]
+    return max(houseRobberUtil(valueInHouse, 0, len(valueInHouse) - 1), houseRobberUtil(valueInHouse, 1, len(valueInHouse)))
+
+""" "\n"\t
+
+#Minimum number of Squares
+
+"""
+
+'''
+import sys
+def minStepsTo1(n):
+    #Implement Your Code Here
+    pass
+    if n <= 3:
+        return n
+
+    res = n
+    for x in range(1, n + 1):
+        temp = x*x
+        if temp > n:
+            break
+        else:
+            res = min(res, 1 + minStepsTo1(n-temp))
+
+    return res
+
+        
+
+    
+n = int(input())
+ans = minStepsTo1(n)
+print(ans)
+'''
+import sys
+
+def minStepsTo1(n, dp):
+    if n <= 3:
+        return n
+    
+    if dp[n] != -1:
+        return dp[n]
+
+    res = n
+    for x in range(1, int(n**0.5) + 1):
+        temp = x * x
+        if temp > n:
+            break
+        else:
+            res = min(res, 1 + minStepsTo1(n - temp, dp))
+
+    dp[n] = res
+    return dp[n]
+
+if __name__ == "__main__":
+    input = sys.stdin.read().strip()
+    n = int(input)
+    
+    # Initialize dp array with -1 (indicating not computed)
+    dp = [-1] * (n + 1)
+    ans = minStepsTo1(n, dp)
+    print(ans)
+""" "\n"\t
