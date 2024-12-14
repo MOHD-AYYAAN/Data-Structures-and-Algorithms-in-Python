@@ -1,0 +1,215 @@
+#Maximum Frequency Number
+
+
+"""
+
+from sys import stdin
+def maxfreq(arr):
+    # write your code logic here !!!
+    d = {} 
+    for num in arr:
+        if num in d:
+             d[num] += 1
+        else: 
+            d[num] = 1 
+        ans = arr[0] 
+    for num in arr: 
+        if d[num] > d[ans]:
+            ans = num
+    return ans
+
+""" "\n"\t
+
+#Pairs with difference K
+
+"""
+
+def printPairDiffK(l, k):
+    count = 0
+    num_count = {} 
+
+    for num in l:
+        if num in num_count:
+            num_count[num] += 1
+        else:
+            num_count[num] = 1
+
+    if k == 0:
+        for num in num_count.values():
+            count += num * (num - 1) // 2
+    else:
+        for num in num_count.keys():
+            if num + k in num_count:
+                count += num_count[num] * num_count[num + k]
+
+    return count
+    
+# Main
+n=int(input())
+l=list(int(i) for i in input().strip().split(' '))
+k=int(input())
+print(printPairDiffK(l, k))
+
+""" "\n"\t
+
+#ExtractUnique Characters
+
+"""
+
+def uniqueChar(s): 
+    # Write your code here
+    ans = ''
+    d = {} 
+    for char in s: 
+        if char not in d:
+            ans = ans + char 
+            d[char] = True 
+    return ans 
+
+
+
+
+
+
+# Main 
+s=input() 
+print(uniqueChar(s))
+
+""" "\n"\t
+
+#Longest subrray sum zero
+
+"""
+
+def subsetSum(l):
+    # Dictionary to store the cumulative sum and its index
+    sum_indices = {}
+    curr_sum = 0
+    max_len = 0
+
+    for i in range(len(l)):
+        curr_sum += l[i]
+
+        # If the cumulative sum is zero, we found a subarray from the start to the current index
+        if curr_sum == 0:
+            max_len = i + 1
+        
+        # If the cumulative sum has been seen before, it means there is a zero-sum subarray
+        if curr_sum in sum_indices:
+            max_len = max(max_len, i - sum_indices[curr_sum])
+        else:
+            # Store the index of the first occurrence of the cumulative sum
+            sum_indices[curr_sum] = i
+
+    return max_len
+
+# Main
+n = int(input())
+l = list(map(int, input().strip().split(' ')))
+print(subsetSum(l))
+
+
+""' "\n"\t
+
+
+#Print Intersection
+
+"""
+
+from sys import stdin
+
+def printIntersection(arr1, n1, arr2, n2):
+    # Sort both arrays to prepare for the two-pointer technique
+    arr1.sort()
+    arr2.sort()
+    
+    # Initialize two pointers for both arrays
+    i, j = 0, 0
+    
+    # Traverse both arrays until one of the pointers reaches the end
+    while i < n1 and j < n2:
+        if arr1[i] == arr2[j]:
+            # If elements at both pointers are equal, print the element
+            print(arr1[i])
+            # Move both pointers forward
+            i += 1
+            j += 1
+        elif arr1[i] < arr2[j]:
+            # If arr1's element is smaller, move the pointer i forward
+            i += 1
+        else:
+            # If arr2's element is smaller, move the pointer j forward
+            j += 1
+
+# Function to take input using fast I/O method
+def takeInput():
+    n = int(stdin.readline().strip())  # Read the size of the array
+    if n == 0:
+        return [], 0  # Return an empty array and 0 if size is 0
+    arr = list(map(int, stdin.readline().strip().split(" ")))  # Read the array elements
+    return arr, n  # Return the array and its size
+
+# Main Code   
+arr1, n1 = takeInput()  # Take input for the first array
+arr2, n2 = takeInput()  # Take input for the second array
+printIntersection(arr1, n1, arr2, n2)  # Print the intersection of the two arrays
+
+
+
+""" "\n"\t
+
+#Print sum to 0
+
+""" 
+
+from sys import stdin
+
+import math
+
+def nc2(n):
+    if n != 1:
+        ans = math.factorial(n) / (math.factorial(2) * math.factorial(n - 2))
+        return int(ans)
+    return 0
+
+# For creating frequency map
+def freqMap(lst):
+    frequency_map = {}
+    for num in lst:
+        if num in frequency_map:
+            frequency_map[num] += 1
+        else:
+            frequency_map[num] = 1
+    return frequency_map
+
+def pairSum0(lst, n):
+    frequency_map = freqMap(lst)
+    count = 0
+    
+    for num in frequency_map:
+        if num > 0 and -num in frequency_map:
+            count += (frequency_map[num] * frequency_map[-num])
+
+    # For handling the case when num is 0
+    if 0 in frequency_map:
+        count += nc2(frequency_map[0])
+
+    return count
+
+  
+def takeInput():
+    #To take fast I/O
+    n=int(stdin.readline().strip())
+    if n==0:
+        return list(),0
+    arr=list(map(int,stdin.readline().strip().split( )))
+    return arr,n
+
+arr,n=takeInput()
+print(pairSum0(arr,n))
+
+
+""" "\n"\t
+
+
+
