@@ -1,0 +1,313 @@
+#Print Subsequences
+
+"""
+
+## Read input as specified in the question.
+## Print output as specified in the question.
+def printSubs(s, output=""):
+    if len(s) == 0:
+        print(output)
+        return
+    
+    # Exclude the first character and proceed
+    printSubs(s[1:], output)
+    
+    # Include the first character and proceed
+    printSubs(s[1:], output + s[0])
+
+# Main
+user_input = input("")
+printSubs(user_input)
+
+""" "\n"\t
+
+#Print Keypad
+
+"""
+
+def getString(d):
+    if d == 2:
+        return "abc"
+    elif d == 3:
+        return "def"
+    elif d == 4:
+        return "ghi"
+    elif d == 5:
+        return "jkl"
+    elif d == 6:
+        return "mno"
+    elif d == 7:
+        return "pqrs"
+    elif d == 8:
+        return "tuv"
+    elif d == 9:
+        return "wxyz"
+    return ""
+
+def printkeypad(n, outputSoFar):
+    if n == 0:
+        print(outputSoFar)
+        return
+    lastDigit = n % 10
+    smallNumber = n // 10
+    
+    optionsForLastDigit = getString(lastDigit)
+    for c in optionsForLastDigit:
+        newOutput = c + outputSoFar
+        printkeypad(smallNumber, newOutput)
+
+# Read input as specified in the question.
+n = int(input().strip())
+
+# Call the function with the initial parameters.
+printkeypad(n, "")
+
+
+""" "\n"\t
+
+#Return Subets sum to K
+
+"""
+
+import sys
+sys.setrecursionlimit(10 ** 8)
+
+def subsetsSumK(arr, k, startIndex=0) :
+    if startIndex == len(arr) :
+        if k == 0 :
+            return [[]]  # Return an empty list as a valid subset
+        else :
+            return []   # Return an empty list for invalid subsets
+        
+    smallOutput1 = subsetsSumK(arr, k, startIndex + 1)
+    smallOutput2 = subsetsSumK(arr, k - arr[startIndex], startIndex + 1)
+    
+    output = []
+    
+    for subset in smallOutput1 :
+        output.append(subset)
+        
+    for subset in smallOutput2 :
+        output.append([arr[startIndex]] + subset)
+        
+    return output
+
+# Taking input
+def takeInput() :
+    n = int(input().strip())
+
+    if n == 0 :
+        return [], 0
+
+    arr = [int(element) for element in input().strip().split(" ")]
+    return arr, n
+
+# Printing the list of lists
+def printListOfList(liOfLi) :
+    for li in liOfLi :
+        for elem in li :
+            print(elem, end = " ")
+        print()
+
+# Main
+arr, n = takeInput()
+
+if n != 0 :
+    k = int(input().strip())
+    liOfLi = subsetsSumK(arr, k)
+
+    printListOfList(liOfLi)
+
+
+
+""" "\n"\t
+
+#Return Subset of an Array
+
+"""
+
+from math import *
+from collections import *
+from sys import *
+from os import *
+
+## Read input as specified in the question.
+## Print output as specified in the question.
+def subset(arr):
+    n=len(arr)
+    if(n<=0):
+        output = [ [] ]
+        return output
+
+    output = subset(arr[:n-1])
+    outputLen = len(output)
+    #output *= 2 This copies the reference. We need shallow copies
+    for i in range(0, outputLen):
+        output.append(output[i].copy())
+        output[outputLen+i].append(arr[n-1])
+    return output
+
+n=int(input())
+arr=list(int(i) for i in input().strip().split(' '))
+output=subset(arr)
+for lst in output:
+    for num in lst:
+        print(num, end=' ')
+    print()
+
+
+""" "\n"\t
+
+#Return Permutations of a string
+
+"""
+
+def permutations(string):
+    #Implement Your Code Here
+    # pass
+    # if(len(string)==1):
+    #     return string
+
+    # res = ''
+    # for x in range(len(string)):
+    #     res += string[x] + permutations(string[0:x] + string[x+1:len(string)])
+    #     res+=" "
+    # return res 
+
+    #base case 
+# Agar string ki length 1 hai, toh sirf usi character ko return karo
+if len(string) == 1:
+    return [string[0]]
+
+# Recursive case
+# Pehle baaki string ke permutations nikalo
+smallOutput = permutations(string[1:])
+output = []
+
+# Har permutation ke liye, naye permutations banao
+for currString in smallOutput:
+    # Har position pe naye character ko daalo aur nayi string banao
+    for i in range(len(currString) + 1):
+        newString = currString[:i] + string[0] + currString[i:]
+        output.append(newString)
+
+# Final output return karo
+return output
+
+
+
+
+string = input()
+ans = permutations(string)
+for s in ans:
+    print(s)
+    
+
+
+
+""" "\n"\t
+
+#Get All Unique Subsets
+
+"""
+
+import sys
+from typing import List
+
+sys.setrecursionlimit(10**8)
+
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        # This will store all unique subsets
+        result = []
+        # A temporary data structure to store current subset
+        current_subset = []
+        
+        def dfs(index: int):
+            # If index is out of range, add the current subset to the result
+            if index == len(nums):
+                result.append(current_subset.copy())
+                return
+            
+            # Include nums[index] in the subset
+            current_subset.append(nums[index])
+            dfs(index + 1)
+            
+            # Exclude nums[index] from the subset and skip all duplicates
+            current_subset.pop()
+            while index + 1 < len(nums) and nums[index] == nums[index + 1]:
+                index += 1
+            dfs(index + 1)
+        
+        # Start the DFS traversal from the first index
+        dfs(0)
+        return result
+
+if __name__ == "__main__":
+    n = int(input())
+    nums = list(map(int, input().split()))
+    obj = Solution()
+    ans = obj.subsetsWithDup(nums)
+    for subset in ans:
+        for element in subset:
+            print(element, end=" ")
+        print()  # Newline after each subset
+
+
+""" "\n"\t
+
+#Print Subset Sum to K
+
+"""
+
+from math import *
+from collections import *
+from sys import *
+from os import *
+
+## Read input as specified in the question.
+## Print output as specified in the question.
+def printSubset(arr, k, lst):
+    n=len(arr)
+    if n==0:
+        return
+    if n==1:
+        if arr[0]==k:
+            print(k, *lst)
+            return
+
+    printSubset(arr[:-1], k, lst)
+    printSubset(arr[:-1], k-arr[-1], [arr[-1]]+lst)
+    if arr[-1]==k:
+        print(k, *lst)
+
+def printSubsetMain(arr, k):
+    printSubset(arr, k, [])
+
+n=int(input())
+arr=list(int(i) for i in input().strip().split(' '))
+k=int(input())
+printSubsetMain(arr, k)
+
+
+""" "\n"\t
+
+#Print Permutations of a string
+
+"""
+
+def printPermutationsHelper(string,output):
+    if len(string) == 0:
+        print(output)
+        return
+    
+    for i in range(len(string)):
+        printPermutationsHelper(string[:i] + string[i+1:] , output + string[i])
+        
+def printPermutations(string):
+    printPermutationsHelper(string,"")
+
+string = input()
+printPermutations(string)
+
+""" "\n"\t
