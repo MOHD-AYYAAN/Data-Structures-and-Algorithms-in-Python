@@ -1,0 +1,174 @@
+#Search in BST
+
+"""
+
+import queue
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+    #Solution
+def searchInBST(root, k):
+    #############################
+    # PLEASE ADD YOUR CODE HERE #
+    #############################
+    if root is None:
+        return False 
+    if k==root.data:
+        return True 
+    if k<=root.data:
+        return searchInBST(root.left,k)
+    else:
+        return searchInBST(root.right,k)
+        
+
+def buildLevelTree(levelorder):
+    index = 0
+    length = len(levelorder)
+    if length<=0 or levelorder[0]==-1:
+        return None
+    root = BinaryTreeNode(levelorder[index])
+    index += 1
+    q = queue.Queue()
+    q.put(root)
+    while not q.empty():
+        currentNode = q.get()
+        leftChild = levelorder[index]
+        index += 1
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+        rightChild = levelorder[index]
+        index += 1
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+    return root
+
+# Main
+levelOrder = [int(i) for i in input().strip().split()]
+root = buildLevelTree(levelOrder)
+k=int(input())
+ans = searchInBST(root, k)
+if ans:
+    print("true")
+else:
+    print("false")
+
+""" "\n"\t
+
+#Elements between K1 and K2
+
+"""
+
+import queue
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def elementsInRangeK1K2(root, k1, k2):
+    #############################
+    # PLEASE ADD YOUR CODE HERE #
+    if root is None:
+        return
+
+    if k1<=root.data and root.data<=k2:
+        elementsInRangeK1K2(root.left, k1, k2)
+        print(root.data, end=' ')
+        elementsInRangeK1K2(root.right, k1, k2)
+        return
+
+    if root.data>k2:
+        elementsInRangeK1K2(root.left, k1, k2)
+    else:
+        elementsInRangeK1K2(root.right, k1, k2)
+    #############################
+
+def buildLevelTree(levelorder):
+    index = 0
+    length = len(levelorder)
+    if length<=0 or levelorder[0]==-1:
+        return None
+    root = BinaryTreeNode(levelorder[index])
+    index += 1
+    q = queue.Queue()
+    q.put(root)
+    while not q.empty():
+        currentNode = q.get()
+        leftChild = levelorder[index]
+        index += 1
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+        rightChild = levelorder[index]
+        index += 1
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+    return root
+
+# Main
+levelOrder = [int(i) for i in input().strip().split()]
+root = buildLevelTree(levelOrder)
+k1, k2 = (int(i) for i in input().strip().split())
+elementsInRangeK1K2(root, k1, k2)
+
+
+""" "\n"\t
+
+#Construct BST
+
+"""
+
+import queue
+
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def constructBSTUtil(lst, start, end):
+    if start > end:
+        return None
+    
+    mid = (start + end) // 2
+    root = BinaryTreeNode(lst[mid])
+
+    root.left = constructBSTUtil(lst, start, mid - 1)
+    root.right = constructBSTUtil(lst, mid + 1, end)
+
+    return root
+
+def constructBST(lst):
+    size = len(lst)
+    return constructBSTUtil(lst, 0, size - 1)
+
+def preOrder(root):
+    if root == None:
+        return
+    print(root.data, end=' ')
+    preOrder(root.left)
+    preOrder(root.right)
+
+# Main
+n = int(input())
+if n > 0:
+    lst = [int(i) for i in input().strip().split()]
+else:
+    lst = []
+root = constructBST(lst)
+preOrder(root)
+
+
+""" "\n"\t
+
+#
